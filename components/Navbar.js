@@ -10,6 +10,7 @@ export default function Navbar() {
         <a href="#about"    className="nav-tab">about</a>
         <a href="#skills"   className="nav-tab">skills</a>
         <a href="#projects" className="nav-tab">projects</a>
+        <a href="#pricing"  className="nav-tab">pricing</a>
         <a href="#contact"  className="nav-tab">contact</a>
       </div>
 
@@ -25,8 +26,11 @@ export default function Navbar() {
           </svg>
           GitHub
         </a>
-        <div className="nav-dot" />
-        <span className="nav-status">available for work</span>
+
+        <div className="nav-status-wrap">
+          <div className="nav-dot" />
+          <span className="nav-status">available for work</span>
+        </div>
       </div>
     </nav>
   );

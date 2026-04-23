@@ -8,13 +8,17 @@ import Pricing from '@/components/Pricing';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
+import Loader from '@/components/Loader';
+import Particles from '@/components/Particles';
 
 export default function Home() {
   return (
     <>
+      <Loader />
+      <Particles />
       <ScrollReveal />
       <Navbar />
-      <main>
+      <main style={{ position: 'relative', zIndex: 1 }}>
         <Hero />
         <About />
         <Skills />

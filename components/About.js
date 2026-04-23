@@ -1,3 +1,45 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+function Counter({ target, suffix = '' }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const started = useRef(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && !started.current) {
+        started.current = true;
+        if (target === '∞') { setCount('∞'); return; }
+        const num = parseInt(target);
+        const duration = 1500;
+        const steps = 40;
+        const increment = num / steps;
+        let current = 0;
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= num) {
+            setCount(num);
+            clearInterval(timer);
+          } else {
+            setCount(Math.floor(current));
+          }
+        }, duration / steps);
+      }
+    }, { threshold: 0.5 });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [target]);
+
+  return (
+    <span ref={ref} className="stat-num">
+      {count}{count !== '∞' && count > 0 ? suffix : count === '∞' ? '' : ''}
+    </span>
+  );
+}
+
 export default function About() {
   return (
     <section id="about">
@@ -31,19 +73,19 @@ export default function About() {
 
           <div className="about-stats reveal reveal-delay-1">
             <div className="stat-box">
-              <div className="stat-num">10+</div>
+              <Counter target="10" suffix="+" />
               <div className="stat-lbl">Projects Shipped</div>
             </div>
             <div className="stat-box">
-              <div className="stat-num">5+</div>
+              <Counter target="5" suffix="+" />
               <div className="stat-lbl">Tech Stacks</div>
             </div>
             <div className="stat-box">
-              <div className="stat-num">∞</div>
+              <Counter target="∞" />
               <div className="stat-lbl">Ideas to Build</div>
             </div>
             <div className="stat-box">
-              <div className="stat-num">1</div>
+              <Counter target="1" />
               <div className="stat-lbl">Goal: Top Builder</div>
             </div>
           </div>
@@ -66,10 +108,9 @@ export default function About() {
             SaaS platform, a landing page, or an AI tool — I get it done and
             get it live.
           </p>
-
           <div style={{ marginTop: '32px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <a href="#projects" className="btn-primary">View Projects</a>
-            <a href="#contact"  className="btn-outline">Hire Me</a>
+            <a href="#contact" className="btn-outline">Hire Me</a>
           </div>
         </div>
       </div>
