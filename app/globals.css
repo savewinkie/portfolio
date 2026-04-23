@@ -113,6 +113,26 @@ body::after {
   gap: 16px;
 }
 
+.nav-github {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--fg-dim);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+}
+
+.nav-github:hover {
+  color: var(--green);
+  border-color: rgba(152,195,121,0.3);
+  background: rgba(152,195,121,0.06);
+}
+
 .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 6px var(--green); animation: blink 2s ease-in-out infinite; }
 
 @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
@@ -631,6 +651,37 @@ section { padding: 100px 40px; position: relative; }
 }
 
 .project-link:hover { color: var(--green); }
+
+/* ── GitHub all link ── */
+.github-all-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--fg-dim);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 3px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+
+.github-all-link:hover {
+  color: var(--green);
+  border-color: rgba(152,195,121,0.3);
+  background: rgba(152,195,121,0.06);
+}
+
+.project-live-badge {
+  font-size: 10px;
+  color: var(--green);
+  margin-left: auto;
+  letter-spacing: 0.05em;
+}
+
+.project-card:hover .project-name { color: var(--green); transition: color 0.2s; }
 
 /* ── Workflow ── */
 .workflow-steps {
