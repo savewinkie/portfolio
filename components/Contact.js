@@ -1,4 +1,43 @@
+'use client';
+
+import { useState } from 'react';
+
 export default function Contact() {
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('loading');
+    setErrorMsg('');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setStatus('success');
+        setForm({ name: '', email: '', message: '' });
+      } else {
+        setStatus('error');
+        setErrorMsg(data.error || 'Something went wrong.');
+      }
+    } catch {
+      setStatus('error');
+      setErrorMsg('Failed to send. Please try again.');
+    }
+  };
+
   return (
     <section id="contact">
       <div className="sec-header">
@@ -53,23 +92,64 @@ export default function Contact() {
           </div>
         </div>
 
-        <div className="contact-form reveal reveal-delay-1">
+        <form className="contact-form reveal reveal-delay-1" onSubmit={handleSubmit}>
           <div>
             <label className="form-label">// name</label>
-            <input type="text" className="form-input" placeholder="Your name" />
+            <input
+              type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className="form-input"
+              placeholder="Your name"
+              required
+            />
           </div>
           <div>
             <label className="form-label">// email</label>
-            <input type="email" className="form-input" placeholder="your@email.com" />
+            <input
+              type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
+              className="form-input"
+              placeholder="your@email.com"
+              required
+            />
           </div>
           <div>
             <label className="form-label">// message</label>
-            <textarea className="form-textarea" placeholder="Tell me about your project..." />
+            <textarea
+              name="message"
+              value={form.message}
+              onChange={handleChange}
+              className="form-textarea"
+              placeholder="Tell me about your project..."
+              required
+            />
           </div>
-          <button className="btn-primary" style={{ width: '100%', textAlign: 'center', marginTop: '4px' }}>
-            $ send-message.sh ↗
+
+          <button
+            type="submit"
+            className="btn-primary"
+            style={{ width: '100%', textAlign: 'center', marginTop: '4px', opacity: status === 'loading' ? 0.7 : 1 }}
+            disabled={status === 'loading'}
+          >
+            {status === 'loading' ? '$ sending...' : '$ send-message.sh ↗'}
           </button>
-        </div>
+
+          {status === 'success' && (
+            <div className="form-feedback form-success">
+              ✓ Message sent! I&apos;ll get back to you soon.
+            </div>
+          )}
+
+          {status === 'error' && (
+            <div className="form-feedback form-error">
+              ✗ {errorMsg}
+            </div>
+          )}
+        </form>
       </div>
     </section>
   );
