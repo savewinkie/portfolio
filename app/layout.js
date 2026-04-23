@@ -5,7 +5,7 @@ export const metadata = {
   description: 'Software Developer, Website Builder & Vibe Coder. I build fast, ship fast, and turn ideas into real products.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>{children}</body>
