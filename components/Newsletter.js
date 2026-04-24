@@ -31,27 +31,56 @@ export default function Newsletter() {
   };
 
   return (
-    <div className="newsletter-wrap">
-      <p className="newsletter-label">
+    <section style={{ padding: '60px 40px', borderTop: '1px solid var(--border)', position: 'relative', zIndex: 1 }}>
+      <p style={{
+        fontStyle: 'italic',
+        fontSize: '13px',
+        color: 'var(--fg-muted)',
+        marginBottom: '20px',
+        lineHeight: '1.7',
+      }}>
         // drop your email — i&apos;ll send you updates on new projects &amp; builds
       </p>
 
       {status === 'success' ? (
-        <p className="newsletter-success">✓ subscribed. talk soon.</p>
+        <p style={{ fontStyle: 'italic', fontSize: '13px', color: 'var(--green)' }}>
+          ✓ subscribed. talk soon.
+        </p>
       ) : (
-        <form className="newsletter-form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', gap: '10px', maxWidth: '480px' }}>
           <input
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="your@email.com"
-            className="newsletter-input"
             required
+            style={{
+              flex: 1,
+              background: 'var(--bg-2)',
+              border: '1px solid var(--border)',
+              borderRadius: '4px',
+              padding: '10px 14px',
+              color: 'var(--fg-bright)',
+              fontFamily: 'var(--font)',
+              fontSize: '13px',
+              outline: 'none',
+              fontStyle: 'italic',
+            }}
           />
           <button
             type="submit"
-            className="newsletter-btn"
             disabled={status === 'loading'}
+            style={{
+              fontFamily: 'var(--font)',
+              fontSize: '12px',
+              padding: '10px 20px',
+              background: 'transparent',
+              color: 'var(--green)',
+              border: '1px solid rgba(152,195,121,0.3)',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}
           >
             {status === 'loading' ? '...' : 'subscribe ↗'}
           </button>
@@ -59,8 +88,10 @@ export default function Newsletter() {
       )}
 
       {status === 'error' && (
-        <p className="newsletter-error">✗ something went wrong. try again.</p>
+        <p style={{ fontStyle: 'italic', fontSize: '12px', color: 'var(--red)', marginTop: '8px' }}>
+          ✗ something went wrong. try again.
+        </p>
       )}
-    </div>
+    </section>
   );
 }
