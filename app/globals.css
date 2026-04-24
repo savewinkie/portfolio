@@ -550,8 +550,117 @@ section { padding: 100px 40px; position: relative; }
 .about-text p .hl-blue   { color: var(--blue); }
 .about-text p .hl-yellow { color: var(--yellow); }
 
-/* ── Skills ── */
-.skills-bg { background: var(--bg-2); }
+/* ── Skills layout ── */
+.skills-layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 0;
+  max-width: 1100px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.skills-sidebar {
+  background: var(--bg-3);
+  border-right: 1px solid var(--border);
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.skills-sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg-dim);
+  font-family: var(--font);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  width: 100%;
+}
+
+.skills-sidebar-item:hover {
+  color: var(--fg-bright);
+  background: var(--bg-2);
+}
+
+.skills-view-all {
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--fg-muted);
+  text-decoration: none;
+  padding: 10px 12px;
+  margin-top: auto;
+  transition: color 0.2s;
+  letter-spacing: 0.03em;
+}
+
+.skills-view-all:hover { color: var(--fg-dim); }
+
+.skills-content {
+  background: var(--bg);
+  padding: 0;
+}
+
+.skill-panel {
+  display: none;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+}
+
+.skill-panel.active { display: flex; }
+
+.skill-panel-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.skill-panel-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.skill-panel-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.skill-panel-desc {
+  font-size: 13px;
+  color: var(--fg-dim);
+  line-height: 1.7;
+}
+
+.skill-panel-arrow {
+  margin-left: auto;
+  color: var(--fg-muted);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .skills-layout { grid-template-columns: 1fr; }
+  .skills-sidebar { flex-direction: row; flex-wrap: wrap; border-right: none; border-bottom: 1px solid var(--border); }
+  .skills-view-all { display: none; }
+}
 
 .skills-subtitle {
   font-size: 13px;

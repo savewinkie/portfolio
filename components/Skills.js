@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Monitor, Cpu, Sparkles, Layers, Globe, Bot, PackageOpen, AppWindow, Zap, FileCode, Briefcase } from 'lucide-react';
 
 const skills = [
@@ -5,15 +8,15 @@ const skills = [
     Icon: Monitor,
     title: 'Frontend',
     color: '#61afef',
-    bg: 'rgba(97,175,239,0.12)',
+    bg: 'rgba(97,175,239,0.15)',
     desc: 'Crafting fast, responsive and accessible applications with modern frameworks.',
-    tags: ['React', 'Next.js', 'HTML', 'CSS', 'JavaScript', 'UI Design', 'TailwindCSS', 'Responsive'],
+    tags: ['React', 'Next.js', 'HTML', 'CSS', 'JavaScript', 'TailwindCSS', 'UI Design', 'Responsive'],
   },
   {
     Icon: Cpu,
     title: 'Backend',
     color: '#98c379',
-    bg: 'rgba(152,195,121,0.12)',
+    bg: 'rgba(152,195,121,0.15)',
     desc: 'Building robust APIs and services with scalable architecture.',
     tags: ['Node.js', 'Python', 'REST APIs', 'Databases', 'Authentication', 'Automation'],
   },
@@ -21,7 +24,7 @@ const skills = [
     Icon: Sparkles,
     title: 'Tools & AI',
     color: '#c678dd',
-    bg: 'rgba(198,120,221,0.12)',
+    bg: 'rgba(198,120,221,0.15)',
     desc: 'Using AI and modern tools to ship faster and automate repetitive work.',
     tags: ['VS Code', 'GitHub', 'Claude', 'ChatGPT', 'Figma', 'AI Tools', 'Vercel'],
   },
@@ -39,9 +42,10 @@ const builds = [
 ];
 
 export default function Skills() {
+  const [activeSkill, setActiveSkill] = useState(0);
+
   return (
     <section className="skills-bg" id="skills">
-
       <div className="sec-header">
         <span className="sec-prompt">~</span>
         <h2 className="sec-title"><span>./</span>skills &amp; what i build</h2>
@@ -50,24 +54,49 @@ export default function Skills() {
 
       <p className="skills-subtitle reveal">I build products and tools that solve real problems.</p>
 
-      {/* Skills cards */}
-      <div className="skills-cards reveal">
-        {skills.map((s) => (
-          <div className="skill-card-new" key={s.title}>
-            <div className="skill-card-icon-wrap" style={{ background: s.bg, border: `1px solid ${s.color}30` }}>
-              <s.Icon size={22} strokeWidth={1.5} color={s.color} />
-            </div>
-            <div className="skill-card-body">
-              <div className="skill-card-title-new" style={{ color: s.color }}>{s.title}</div>
-              <p className="skill-card-desc">{s.desc}</p>
+      {/* Skills — sidebar + content */}
+      <div className="skills-layout reveal">
+        {/* Sidebar */}
+        <div className="skills-sidebar">
+          {skills.map((s, i) => (
+            <button
+              key={s.title}
+              className={`skills-sidebar-item ${activeSkill === i ? 'active' : ''}`}
+              onClick={() => setActiveSkill(i)}
+              style={activeSkill === i ? { color: s.color, borderColor: `${s.color}40`, background: `${s.color}10` } : {}}
+            >
+              <s.Icon size={14} strokeWidth={1.5} />
+              <span>{s.title}</span>
+            </button>
+          ))}
+          <a href="#projects" className="skills-view-all">View all projects →</a>
+        </div>
+
+        {/* Skill content */}
+        <div className="skills-content">
+          {skills.map((s, i) => (
+            <div
+              key={s.title}
+              className={`skill-panel ${activeSkill === i ? 'active' : ''}`}
+            >
+              <div className="skill-panel-head">
+                <div className="skill-panel-icon" style={{ background: s.bg, border: `1px solid ${s.color}30` }}>
+                  <s.Icon size={24} strokeWidth={1.5} color={s.color} />
+                </div>
+                <div>
+                  <div className="skill-panel-title" style={{ color: s.color }}>{s.title}</div>
+                  <p className="skill-panel-desc">{s.desc}</p>
+                </div>
+                <span className="skill-panel-arrow">→</span>
+              </div>
               <div className="skill-tags">
                 {s.tags.map((t) => (
                   <span className="skill-tag-new" key={t}>{t}</span>
                 ))}
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* What I Build */}
