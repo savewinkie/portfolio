@@ -1040,6 +1040,123 @@ section { padding: 100px 40px; position: relative; }
   background: rgba(224,108,117,0.06);
 }
 
+/* ── Testimonials ── */
+.testimonials-section {
+  background: var(--bg-2);
+  overflow: hidden;
+}
+
+.testimonials-track-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials-fade-left {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 120px;
+  background: linear-gradient(to right, var(--bg-2), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.testimonials-fade-right {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 120px;
+  background: linear-gradient(to left, var(--bg-2), transparent);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.testimonials-track {
+  display: flex;
+  gap: 20px;
+  animation: scrollLeft 30s linear infinite;
+  width: max-content;
+  padding: 8px 0 24px;
+}
+
+.testimonials-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.testimonial-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 28px;
+  width: 360px;
+  flex-shrink: 0;
+  transition: border-color 0.3s;
+  position: relative;
+}
+
+.testimonial-card:hover {
+  border-color: rgba(152,195,121,0.3);
+}
+
+.testimonial-quote {
+  font-size: 48px;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: 12px;
+  opacity: 0.5;
+  font-family: Georgia, serif;
+}
+
+.testimonial-text {
+  font-size: 13px;
+  color: var(--fg-dim);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonial-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(152,195,121,0.15);
+  border: 1px solid rgba(152,195,121,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.testimonial-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg-bright);
+}
+
+.testimonial-role {
+  font-size: 11px;
+  color: var(--fg-muted);
+  letter-spacing: 0.05em;
+}
+
+.testimonial-stars {
+  margin-left: auto;
+  color: var(--yellow);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
 /* ── Newsletter ── */
 .newsletter-wrap {
   padding: 60px 40px;
