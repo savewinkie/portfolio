@@ -41,7 +41,7 @@ export default function Skills() {
     <section className="skills-bg" id="skills">
       <div className="sec-header">
         <span className="sec-prompt">~</span>
-        <h2 className="sec-title"><span>./</span>skills &amp; what i build</h2>
+        <h2 className="sec-title"><span>./</span>skills</h2>
         <div className="sec-line" />
       </div>
 

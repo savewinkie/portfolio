@@ -17,7 +17,7 @@ export default function Particles() {
     resize();
     window.addEventListener('resize', resize);
 
-    const particles = Array.from({ length: 120 }, () => ({
+    const particles = Array.from({ length: 180 }, () => ({
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       r: Math.random() * 2 + 0.5,
@@ -29,20 +29,26 @@ export default function Particles() {
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
         p.pulse += 0.02;
+
         if (p.x < 0) p.x = canvas.width;
         if (p.x > canvas.width) p.x = 0;
         if (p.y < 0) p.y = canvas.height;
         if (p.y > canvas.height) p.y = 0;
+
         const alpha = p.alpha * (0.7 + 0.3 * Math.sin(p.pulse));
+
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(152, 195, 121, ${alpha})`;
         ctx.fill();
       });
+
+      // Lines between close particles
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -58,6 +64,7 @@ export default function Particles() {
           }
         }
       }
+
       animId = requestAnimationFrame(draw);
     };
 

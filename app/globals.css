@@ -551,7 +551,7 @@ section { padding: 100px 40px; position: relative; }
 .about-text p .hl-yellow { color: var(--yellow); }
 
 /* ── Skills ── */
-.skills-bg { background: var(--bg-2); }
+.skills-bg { background: var(--bg); }
 
 .skills-subtitle {
   font-size: 13px;
