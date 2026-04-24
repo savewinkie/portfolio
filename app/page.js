@@ -12,10 +12,12 @@ import ScrollReveal from '@/components/ScrollReveal';
 import Loader from '@/components/Loader';
 import Particles from '@/components/Particles';
 import MobileNav from '@/components/MobileNav';
+import ScrollToTop from '@/components/ScrollToTop';
 
 export default function Home() {
   return (
     <>
+      <ScrollToTop />
       <Loader />
       <Particles />
       <ScrollReveal />
