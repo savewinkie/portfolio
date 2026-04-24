@@ -5,7 +5,6 @@ import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Workflow from '@/components/Workflow';
 import Pricing from '@/components/Pricing';
-import Testimonials from '@/components/Testimonials';
 import Contact from '@/components/Contact';
 import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
@@ -29,7 +28,6 @@ export default function Home() {
         <Projects />
         <Workflow />
         <Pricing />
-        <Testimonials />
         <Contact />
         <Newsletter />
       </main>
