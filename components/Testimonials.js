@@ -1,34 +1,27 @@
 const reviews = [
   {
     name: 'Imre Bernath',
-    role: 'Client via linkb.dev',
-    text: 'I worked with him through linkb.dev and it was a great experience from start to finish. Communication was clear, he understood exactly what I needed, and he delivered high-quality work on time. He also came up with smart ideas that improved the final result. I\'d definitely work with him again.',
+    role: 'Client',
+    text: 'Great experience from start to finish. Communication was clear, he understood exactly what I needed, and delivered high-quality work on time. He also came up with smart ideas that improved the final result.',
+    initial: 'I',
   },
   {
     name: 'Miranda Bernath',
-    role: 'Client via linkb.dev',
-    text: 'I found him through linkb.dev for a project and I\'m really happy with the outcome. He quickly understood my requirements and turned them into something even better than I expected. Everything was delivered on time and looked very professional. Great to work with and highly recommended!',
-  },
-  // Duplicated for infinite loop effect
-  {
-    name: 'Imre Bernath',
-    role: 'Client via linkb.dev',
-    text: 'I worked with him through linkb.dev and it was a great experience from start to finish. Communication was clear, he understood exactly what I needed, and he delivered high-quality work on time. He also came up with smart ideas that improved the final result. I\'d definitely work with him again.',
-  },
-  {
-    name: 'Miranda Bernath',
-    role: 'Client via linkb.dev',
-    text: 'I found him through linkb.dev for a project and I\'m really happy with the outcome. He quickly understood my requirements and turned them into something even better than I expected. Everything was delivered on time and looked very professional. Great to work with and highly recommended!',
+    role: 'Client',
+    text: 'Really happy with the outcome. He quickly understood my requirements and turned them into something even better than I expected. Everything was delivered on time and looked very professional.',
+    initial: 'M',
   },
   {
     name: 'Imre Bernath',
-    role: 'Client via linkb.dev',
-    text: 'I worked with him through linkb.dev and it was a great experience from start to finish. Communication was clear, he understood exactly what I needed, and he delivered high-quality work on time.',
+    role: 'Client',
+    text: 'Great experience from start to finish. Communication was clear, he understood exactly what I needed, and delivered high-quality work on time. He also came up with smart ideas that improved the final result.',
+    initial: 'I',
   },
   {
     name: 'Miranda Bernath',
-    role: 'Client via linkb.dev',
-    text: 'I found him through linkb.dev for a project and I\'m really happy with the outcome. He quickly understood my requirements and turned them into something even better than I expected.',
+    role: 'Client',
+    text: 'Really happy with the outcome. He quickly understood my requirements and turned them into something even better than I expected. Everything was delivered on time and looked very professional.',
+    initial: 'M',
   },
 ];
 
@@ -47,17 +40,14 @@ export default function Testimonials() {
         <div className="testimonials-track">
           {reviews.map((r, i) => (
             <div className="testimonial-card" key={i}>
-              <div className="testimonial-quote">&ldquo;</div>
-              <p className="testimonial-text">{r.text}</p>
+              <div className="testimonial-stars">★★★★★</div>
+              <p className="testimonial-text">&ldquo;{r.text}&rdquo;</p>
               <div className="testimonial-author">
-                <div className="testimonial-avatar">
-                  {r.name.charAt(0)}
-                </div>
-                <div>
+                <div className="testimonial-avatar">{r.initial}</div>
+                <div className="testimonial-info">
                   <div className="testimonial-name">{r.name}</div>
-                  <div className="testimonial-role">{r.role}</div>
+                  <div className="testimonial-role">{r.role} via linkb.dev</div>
                 </div>
-                <div className="testimonial-stars">★★★★★</div>
               </div>
             </div>
           ))}
