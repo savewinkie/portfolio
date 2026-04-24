@@ -2,7 +2,7 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <a href="#home" className="nav-logo">
-        link<span>.dev</span>
+        linkb<span>.dev</span>
       </a>
 
       <div className="nav-tabs">
