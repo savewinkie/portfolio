@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
+const audienceId = process.env.RESEND_AUDIENCE_ID;
 
 export async function POST(req) {
   try {
@@ -10,18 +11,11 @@ export async function POST(req) {
       return Response.json({ error: 'Email is required.' }, { status: 400 });
     }
 
-    // Notify you of new subscriber
-    await resend.emails.send({
-      from: 'Portfolio <onboarding@resend.dev>',
-      to: 'Link.bernath@gmail.com',
-      subject: `New newsletter subscriber: ${email}`,
-      html: `
-        <div style="font-family: monospace; background: #11131a; color: #abb2bf; padding: 32px; border-radius: 8px;">
-          <h2 style="color: #98c379; margin-bottom: 16px;">❯ new subscriber</h2>
-          <p><span style="color: #61afef;">email</span>: ${email}</p>
-          <p style="color: #3d4451; margin-top: 24px; font-size: 12px;">// subscribed on linkb.dev</p>
-        </div>
-      `,
+    // Add to Resend Audience
+    await resend.contacts.create({
+      email,
+      audienceId,
+      unsubscribed: false,
     });
 
     // Confirm to subscriber
@@ -32,8 +26,8 @@ export async function POST(req) {
       html: `
         <div style="font-family: monospace; background: #11131a; color: #abb2bf; padding: 32px; border-radius: 8px;">
           <h2 style="color: #98c379; margin-bottom: 16px;">❯ subscribed.</h2>
-          <p>Hey! You&apos;re now subscribed to updates from <span style="color: #98c379;">linkb.dev</span>.</p>
-          <p style="margin-top: 12px;">I&apos;ll send you updates on new projects, blog posts, and builds.</p>
+          <p>Hey! You're now subscribed to updates from <span style="color: #98c379;">linkb.dev</span>.</p>
+          <p style="margin-top: 12px;">I'll send you updates on new projects, blog posts, and builds.</p>
           <p style="color: #3d4451; margin-top: 24px; font-size: 12px;">// linkb.dev — software dev & builder</p>
         </div>
       `,
