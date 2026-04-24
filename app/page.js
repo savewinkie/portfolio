@@ -10,6 +10,7 @@ import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
 import Loader from '@/components/Loader';
 import Particles from '@/components/Particles';
+import MobileNav from '@/components/MobileNav';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Particles />
       <ScrollReveal />
       <Navbar />
+      <MobileNav />
       <main style={{ position: 'relative', zIndex: 1 }}>
         <Hero />
         <About />
