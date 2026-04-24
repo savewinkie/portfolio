@@ -1042,10 +1042,14 @@ section { padding: 100px 40px; position: relative; }
 
 /* ── Newsletter ── */
 .newsletter-wrap {
-  margin-top: 80px;
-  padding-top: 48px;
+  padding: 60px 40px;
   border-top: 1px solid var(--border);
-  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 .newsletter-label {
@@ -1054,11 +1058,14 @@ section { padding: 100px 40px; position: relative; }
   color: var(--fg-muted);
   margin-bottom: 20px;
   line-height: 1.7;
+  max-width: 500px;
 }
 
 .newsletter-form {
   display: flex;
   gap: 10px;
+  width: 100%;
+  max-width: 500px;
 }
 
 .newsletter-input {
