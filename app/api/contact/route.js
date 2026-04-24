@@ -13,7 +13,7 @@ export async function POST(req) {
     // Notify you of new subscriber
     await resend.emails.send({
       from: 'Portfolio <onboarding@resend.dev>',
-      to: 'your@email.com',
+      to: 'Link.bernath@gmail.com',
       subject: `New newsletter subscriber: ${email}`,
       html: `
         <div style="font-family: monospace; background: #11131a; color: #abb2bf; padding: 32px; border-radius: 8px;">
