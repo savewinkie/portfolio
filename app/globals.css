@@ -1040,6 +1040,80 @@ section { padding: 100px 40px; position: relative; }
   background: rgba(224,108,117,0.06);
 }
 
+/* ── Newsletter ── */
+.newsletter-wrap {
+  margin-top: 80px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+  max-width: 560px;
+}
+
+.newsletter-label {
+  font-style: italic;
+  font-size: 13px;
+  color: var(--fg-muted);
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 10px;
+}
+
+.newsletter-input {
+  flex: 1;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 14px;
+  color: var(--fg-bright);
+  font-family: var(--font);
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.newsletter-input:focus {
+  border-color: rgba(152,195,121,0.4);
+}
+
+.newsletter-input::placeholder {
+  color: var(--fg-muted);
+  font-style: italic;
+}
+
+.newsletter-btn {
+  font-family: var(--font);
+  font-size: 12px;
+  padding: 10px 20px;
+  background: transparent;
+  color: var(--green);
+  border: 1px solid rgba(152,195,121,0.3);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.newsletter-btn:hover {
+  background: rgba(152,195,121,0.08);
+  border-color: var(--green);
+}
+
+.newsletter-success {
+  font-style: italic;
+  font-size: 13px;
+  color: var(--green);
+}
+
+.newsletter-error {
+  font-style: italic;
+  font-size: 12px;
+  color: var(--red);
+  margin-top: 8px;
+}
+
 /* ── Footer ── */
 .footer {
   padding: 28px 40px;

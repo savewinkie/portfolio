@@ -6,6 +6,7 @@ import Projects from '@/components/Projects';
 import Workflow from '@/components/Workflow';
 import Pricing from '@/components/Pricing';
 import Contact from '@/components/Contact';
+import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
 import ScrollReveal from '@/components/ScrollReveal';
 import Loader from '@/components/Loader';
@@ -28,6 +29,7 @@ export default function Home() {
         <Workflow />
         <Pricing />
         <Contact />
+        <Newsletter />
       </main>
       <Footer />
     </>
