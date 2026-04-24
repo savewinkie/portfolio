@@ -42,7 +42,7 @@ export default function Loader() {
   return (
     <div className="loader">
       <div className="loader-content">
-        <div className="loader-logo">link<span>.dev</span></div>
+        <div className="loader-logo">linkb<span>.dev</span></div>
         <div className="loader-text">{text}</div>
         <div className="loader-bar-wrap">
           <div className="loader-bar" style={{ width: `${progress}%` }} />
