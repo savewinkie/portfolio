@@ -553,55 +553,48 @@ section { padding: 100px 40px; position: relative; }
 /* ── Skills ── */
 .skills-bg { background: var(--bg-2); }
 
-.skills-grid {
+.skills-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 1100px;
-  margin-bottom: 60px;
-}
-
-.skill-card {
-  background: var(--bg);
+  gap: 1px;
+  background: var(--border);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 24px;
-  transition: border-color 0.3s, transform 0.3s;
+  overflow: hidden;
+  max-width: 1100px;
+  margin-bottom: 0;
 }
 
-.skill-card:hover {
-  border-color: rgba(97,175,239,0.3);
-  transform: translateY(-3px);
+.skill-pill-group {
+  background: var(--bg);
+  padding: 28px 28px 24px;
+  transition: background 0.2s;
 }
 
-.skill-card-head {
+.skill-pill-group:hover { background: var(--bg-2); }
+
+.skill-pill-head {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid var(--border);
-}
-
-.skill-card-icon { color: var(--blue); }
-
-.skill-card-title {
+  gap: 8px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--fg-bright);
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
 }
 
 .skill-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 
 .skill-tag {
   font-size: 11px;
   padding: 4px 10px;
   border-radius: 3px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.03);
   border: 1px solid var(--border);
   color: var(--fg-dim);
   transition: all 0.2s;
@@ -611,100 +604,84 @@ section { padding: 100px 40px; position: relative; }
 .skill-tag:hover {
   color: var(--green);
   border-color: rgba(152,195,121,0.3);
-  background: rgba(152,195,121,0.06);
+  background: rgba(152,195,121,0.05);
 }
 
-/* ── What I Build ── */
-.wib-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
+.skills-divider {
+  height: 1px;
   background: var(--border);
+  max-width: 1100px;
+  margin: 48px 0;
+}
+
+/* ── Builds list ── */
+.builds-list {
+  max-width: 1100px;
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
-  max-width: 1100px;
 }
 
-.wib-card {
-  background: var(--bg);
-  padding: 28px 22px;
-  transition: background 0.2s;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.wib-card:hover { background: var(--bg-2); }
-
-.wib-card:hover .wib-title { color: var(--green); }
-
-.wib-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--green);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s;
-}
-
-.wib-card:hover::before { transform: scaleX(1); }
-
-.wib-head {
-  display: flex;
-  justify-content: space-between;
+.build-row {
+  display: grid;
+  grid-template-columns: 40px 200px 1fr auto;
   align-items: center;
+  gap: 24px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s;
 }
 
-.wib-num {
-  font-size: 10px;
+.build-row:last-child { border-bottom: none; }
+
+.build-row:hover {
+  background: var(--bg-3);
+}
+
+.build-row:hover .build-title { color: var(--green); }
+
+.build-num {
+  font-size: 11px;
   color: var(--fg-muted);
   letter-spacing: 0.1em;
 }
 
-.wib-title {
-  font-size: 13px;
+.build-title {
+  font-size: 14px;
   font-weight: 600;
   color: var(--fg-bright);
   transition: color 0.2s;
+  white-space: nowrap;
 }
 
-.wib-desc {
+.build-desc {
   font-size: 12px;
   color: var(--fg-dim);
-  line-height: 1.7;
-  flex: 1;
+  line-height: 1.6;
 }
 
-.wib-tags {
+.build-tags {
   display: flex;
-  flex-wrap: wrap;
   gap: 6px;
-  margin-top: 4px;
+  flex-shrink: 0;
 }
 
-.wib-tag {
+.build-tag {
   font-size: 10px;
   color: var(--cyan);
   border: 1px solid rgba(86,182,194,0.2);
   padding: 2px 8px;
   border-radius: 3px;
-  background: rgba(86,182,194,0.06);
+  background: rgba(86,182,194,0.05);
+  white-space: nowrap;
 }
 
-.wib-arrow {
-  font-size: 12px;
-  color: var(--fg-muted);
-  position: absolute;
-  bottom: 16px;
-  right: 16px;
-  transition: color 0.2s, transform 0.2s;
+@media (max-width: 900px) {
+  .skills-row { grid-template-columns: 1fr; }
+  .build-row { grid-template-columns: 40px 1fr; gap: 12px; }
+  .build-desc { display: none; }
+  .build-tags { display: none; }
 }
-
-.wib-card:hover .wib-arrow { color: var(--green); transform: translate(2px,-2px); }
 
 /* ── Pricing ── */
 .pricing-grid {
