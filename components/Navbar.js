@@ -1,6 +1,15 @@
+'use client';
+
+import { motion } from 'framer-motion';
+
 export default function Navbar() {
   return (
-    <nav className="navbar">
+    <motion.nav
+      className="navbar"
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
       <a href="#home" className="nav-logo">
         linkb<span>.dev</span>
       </a>
@@ -32,6 +41,6 @@ export default function Navbar() {
           <span className="nav-status">available for work</span>
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

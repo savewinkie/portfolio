@@ -1,3 +1,6 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import Typewriter from './Typewriter';
 
 const lines = [
@@ -19,7 +22,12 @@ export default function Hero() {
     <section className="hero" id="home">
       <div className="hero-scanline" />
 
-      <div className="terminal-window">
+      <motion.div
+        className="terminal-window"
+        initial={{ opacity: 0, y: 40, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.8, delay: 1.8, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className="terminal-titlebar">
           <div className="titlebar-dots">
             <div className="dot r" />
@@ -32,10 +40,24 @@ export default function Hero() {
         <Typewriter lines={lines} speed={40} />
 
         <div style={{ padding: '0 36px 32px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-          <a href="#projects" className="btn-primary">./view-projects.sh</a>
-          <a href="#contact"  className="btn-outline">./contact-me.sh</a>
+          <motion.a
+            href="#projects"
+            className="btn-primary"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            ./view-projects.sh
+          </motion.a>
+          <motion.a
+            href="#contact"
+            className="btn-outline"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            ./contact-me.sh
+          </motion.a>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

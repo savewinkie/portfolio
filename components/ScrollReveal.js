@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'framer-motion';
 
 export default function ScrollReveal() {
   useEffect(() => {
@@ -16,7 +18,6 @@ export default function ScrollReveal() {
     );
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
     return () => observer.disconnect();
   }, []);
 
