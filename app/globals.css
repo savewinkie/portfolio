@@ -96,32 +96,31 @@ body::after {
   66% { transform: translateY(20px) scale(0.97); }
 }
 
-/* ── GSAP Cursor ── */
-.gsap-cursor {
-  width: 10px;
-  height: 10px;
-  background: var(--green);
-  border-radius: 50%;
+/* ── Old Mac Cursor ── */
+* { cursor: none !important; }
+
+.mac-cursor {
   position: fixed;
-  top: 0; left: 0;
+  width: 22px;
+  height: 22px;
   pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 0 10px var(--green), 0 0 20px rgba(152,195,121,0.3);
-  mix-blend-mode: screen;
+  z-index: 99999;
+  transform: translate(-2px, -2px);
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M0 0 L0 12 L4 9 L7 16 L9 15 L7 8 L12 8 Z' fill='white' stroke='black' stroke-width='1' stroke-linejoin='miter'/></svg>") no-repeat center/contain;
+  filter: drop-shadow(0 0 1px rgba(0,0,0,0.5));
+  transition: transform 0.15s ease;
 }
 
-.gsap-trail {
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(152,195,121,0.4);
-  border-radius: 50%;
-  position: fixed;
-  top: 0; left: 0;
-  pointer-events: none;
-  z-index: 9998;
-  transform: translate(-50%, -50%);
+.mac-cursor.hover {
+  transform: translate(-2px, -2px) scale(1.4);
 }
+
+@media (max-width: 900px) {
+  * { cursor: auto !important; }
+  .mac-cursor { display: none; }
+}
+
+/* ── GSAP Cursor (deprecated) ── */
 
 /* ── Loader ── */
 .loader {

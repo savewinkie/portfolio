@@ -1,69 +1,49 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
 
 export default function CursorEffect() {
   const cursorRef = useRef(null);
-  const trailRef = useRef(null);
 
   useEffect(() => {
     const cursor = cursorRef.current;
-    const trail = trailRef.current;
-    if (!cursor || !trail) return;
+    if (!cursor) return;
 
-    let mouseX = 0, mouseY = 0;
+    let mx = 0, my = 0, cx = 0, cy = 0;
 
     const onMove = (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-
-      gsap.to(cursor, {
-        x: mouseX,
-        y: mouseY,
-        duration: 0.1,
-        ease: 'power2.out',
-      });
-
-      gsap.to(trail, {
-        x: mouseX,
-        y: mouseY,
-        duration: 0.4,
-        ease: 'power2.out',
-      });
+      mx = e.clientX;
+      my = e.clientY;
     };
 
-    const onEnterButton = () => {
-      gsap.to(cursor, { scale: 2.5, duration: 0.3, ease: 'back.out(2)' });
-      gsap.to(trail, { scale: 0.5, opacity: 0.3, duration: 0.3 });
-    };
-
-    const onLeaveButton = () => {
-      gsap.to(cursor, { scale: 1, duration: 0.3, ease: 'back.out(2)' });
-      gsap.to(trail, { scale: 1, opacity: 1, duration: 0.3 });
+    const tick = () => {
+      cx += (mx - cx) * 0.25;
+      cy += (my - cy) * 0.25;
+      cursor.style.left = cx + 'px';
+      cursor.style.top = cy + 'px';
+      requestAnimationFrame(tick);
     };
 
     window.addEventListener('mousemove', onMove);
+    tick();
 
-    const buttons = document.querySelectorAll('a, button, .project-card, .pricing-card, .skill-card, .wib-card');
-    buttons.forEach(b => {
-      b.addEventListener('mouseenter', onEnterButton);
-      b.addEventListener('mouseleave', onLeaveButton);
+    const onEnter = () => cursor.classList.add('hover');
+    const onLeave = () => cursor.classList.remove('hover');
+
+    const targets = document.querySelectorAll('a, button, .project-card, .pricing-card, .skill-card, .wib-card, input, textarea');
+    targets.forEach(t => {
+      t.addEventListener('mouseenter', onEnter);
+      t.addEventListener('mouseleave', onLeave);
     });
 
     return () => {
       window.removeEventListener('mousemove', onMove);
-      buttons.forEach(b => {
-        b.removeEventListener('mouseenter', onEnterButton);
-        b.removeEventListener('mouseleave', onLeaveButton);
+      targets.forEach(t => {
+        t.removeEventListener('mouseenter', onEnter);
+        t.removeEventListener('mouseleave', onLeave);
       });
     };
   }, []);
 
-  return (
-    <>
-      <div ref={cursorRef} className="gsap-cursor" />
-      <div ref={trailRef} className="gsap-trail" />
-    </>
-  );
+  return <div ref={cursorRef} className="mac-cursor" />;
 }
