@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import Typewriter from './Typewriter';
 import TextScramble from './TextScramble';
+import MagneticButton from './MagneticButton';
+import SplitText from './SplitText';
 
 const lines = [
   { type: 'prompt',  text: 'whoami' },
@@ -18,34 +20,43 @@ const lines = [
   { type: 'prompt2', text: 'Ready to build something?' },
 ];
 
-const containerVariants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.12, delayChildren: 1.8 }
-  }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } }
-};
-
 export default function Hero() {
   return (
     <section className="hero" id="home">
       <div className="hero-scanline" />
 
+      {/* Animated gradient orbs */}
+      <div className="hero-orb hero-orb-1" />
+      <div className="hero-orb hero-orb-2" />
+      <div className="hero-orb hero-orb-3" />
+
       <motion.div
         className="terminal-window"
-        initial={{ opacity: 0, y: 60, scale: 0.95 }}
+        initial={{ opacity: 0, y: 80, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
+        style={{ position: 'relative', zIndex: 2 }}
       >
         <div className="terminal-titlebar">
           <div className="titlebar-dots">
-            <div className="dot r" />
-            <div className="dot y" />
-            <div className="dot g" />
+            <motion.div
+              className="dot r"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 2.0, type: 'spring', stiffness: 400 }}
+            />
+            <motion.div
+              className="dot y"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 2.1, type: 'spring', stiffness: 400 }}
+            />
+            <motion.div
+              className="dot g"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 2.2, type: 'spring', stiffness: 400 }}
+            />
           </div>
           <div className="titlebar-title">
             <TextScramble text="link@portfolio: ~/home" delay={2000} />
@@ -54,31 +65,26 @@ export default function Hero() {
 
         <Typewriter lines={lines} speed={38} />
 
-        <motion.div
-          style={{ padding: '0 36px 32px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <motion.a
-            href="#projects"
-            className="btn-primary"
-            variants={itemVariants}
-            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(152,195,121,0.5)' }}
-            whileTap={{ scale: 0.97 }}
+        <div style={{ padding: '0 36px 32px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.4, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            ./view-projects.sh
-          </motion.a>
-          <motion.a
-            href="#contact"
-            className="btn-outline"
-            variants={itemVariants}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.97 }}
+            <MagneticButton href="#projects" className="btn-primary">
+              ./view-projects.sh
+            </MagneticButton>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.55, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            ./contact-me.sh
-          </motion.a>
-        </motion.div>
+            <MagneticButton href="#contact" className="btn-outline">
+              ./contact-me.sh
+            </MagneticButton>
+          </motion.div>
+        </div>
       </motion.div>
     </section>
   );
