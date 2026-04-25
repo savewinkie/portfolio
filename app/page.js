@@ -13,12 +13,14 @@ import Loader from '@/components/Loader';
 import Particles from '@/components/Particles';
 import MobileNav from '@/components/MobileNav';
 import ScrollToTop from '@/components/ScrollToTop';
+import CursorEffect from '@/components/CursorEffect';
 
 export default function Home() {
   return (
     <>
       <ScrollToTop />
       <Loader />
+      <CursorEffect />
       <Particles />
       <ScrollReveal />
       <Navbar />

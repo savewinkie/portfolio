@@ -47,6 +47,33 @@ body::after {
   z-index: 9999;
 }
 
+/* ── GSAP Cursor ── */
+.gsap-cursor {
+  width: 10px;
+  height: 10px;
+  background: var(--green);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px var(--green), 0 0 20px rgba(152,195,121,0.3);
+  mix-blend-mode: screen;
+}
+
+.gsap-trail {
+  width: 32px;
+  height: 32px;
+  border: 1px solid rgba(152,195,121,0.4);
+  border-radius: 50%;
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+}
+
 /* ── Loader ── */
 .loader {
   position: fixed;
