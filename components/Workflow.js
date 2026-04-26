@@ -105,6 +105,52 @@ export default function Workflow() {
           </div>
         ))}
       </div>
+
+      {/* Stats banner */}
+      <div className="workflow-banner reveal">
+        <div className="banner-item">
+          <div className="banner-icon">⚡</div>
+          <div>
+            <div className="banner-num">3-7</div>
+            <div className="banner-label">days per project</div>
+          </div>
+        </div>
+        <div className="banner-divider" />
+        <div className="banner-item">
+          <div className="banner-icon">🎯</div>
+          <div>
+            <div className="banner-num">100%</div>
+            <div className="banner-label">focus on shipping</div>
+          </div>
+        </div>
+        <div className="banner-divider" />
+        <div className="banner-item">
+          <div className="banner-icon">🔁</div>
+          <div>
+            <div className="banner-num">Iterate</div>
+            <div className="banner-label">after launch</div>
+          </div>
+        </div>
+        <div className="banner-divider" />
+        <div className="banner-item">
+          <div className="banner-icon">∞</div>
+          <div>
+            <div className="banner-num">No limits</div>
+            <div className="banner-label">on creativity</div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA */}
+      <div className="workflow-cta reveal">
+        <div className="workflow-cta-text">
+          <div className="workflow-cta-pre mono">// ready when you are</div>
+          <h3>Got an idea? <span>Let&apos;s ship it.</span></h3>
+        </div>
+        <a href="#contact" className="workflow-cta-btn">
+          Start a project →
+        </a>
+      </div>
     </section>
   );
 }
