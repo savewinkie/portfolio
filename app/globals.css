@@ -1493,15 +1493,25 @@ section { padding: 100px 40px; position: relative; }
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
-  transition: border-color 0.3s, transform 0.3s;
+  transition: border-color 0.3s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s;
+  transform: perspective(1000px) rotateY(6deg) rotateX(2deg);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
 }
 
 .project-card:hover {
   border-color: rgba(152,195,121,0.3);
-  transform: translateY(-4px);
+  transform: perspective(1000px) rotateY(2deg) rotateX(0deg);
+  box-shadow: 0 30px 70px rgba(0,0,0,0.4), 0 0 60px rgba(152,195,121,0.05);
 }
 
-.project-card.featured { grid-column: span 2; }
+.project-card.featured {
+  grid-column: span 2;
+  transform: perspective(1000px) rotateY(-4deg) rotateX(2deg);
+}
+
+.project-card.featured:hover {
+  transform: perspective(1000px) rotateY(-1deg) rotateX(0deg);
+}
 
 .project-bar {
   background: var(--bg-3);
@@ -1941,7 +1951,6 @@ section { padding: 100px 40px; position: relative; }
 .footer-links a:hover { color: var(--green); }
 
 /* ── Framer Motion card bounce ── */
-.project-card,
 .pricing-card,
 .skill-card,
 .stat-box,
@@ -1950,7 +1959,6 @@ section { padding: 100px 40px; position: relative; }
   transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.3s, background 0.2s !important;
 }
 
-.project-card:hover { transform: translateY(-6px) scale(1.01) !important; }
 .pricing-card:hover { transform: translateY(-6px) scale(1.01) !important; }
 .skill-card:hover   { transform: translateY(-4px) scale(1.01) !important; }
 .stat-box:hover     { transform: translateY(-3px) scale(1.02) !important; }
