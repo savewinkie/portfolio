@@ -7,7 +7,8 @@ const steps = [
     desc: 'A spark — a problem worth solving, a product worth building.',
     Icon: Lightbulb,
     color: '#e5c07b',
-    glow: 'rgba(229,192,123,0.3)',
+    cmd: '$ npm init idea',
+    file: 'idea.md',
   },
   {
     num: '02',
@@ -15,7 +16,8 @@ const steps = [
     desc: 'Sketch fast. Design the core experience. Minimal and focused.',
     Icon: Pencil,
     color: '#61afef',
-    glow: 'rgba(97,175,239,0.3)',
+    cmd: '$ figma open --new',
+    file: 'design.fig',
   },
   {
     num: '03',
@@ -23,7 +25,8 @@ const steps = [
     desc: 'Code it. Vibe-code it. Use every tool available — AI included.',
     Icon: Code2,
     color: '#c678dd',
-    glow: 'rgba(198,120,221,0.3)',
+    cmd: '$ code . && claude',
+    file: 'build.tsx',
   },
   {
     num: '04',
@@ -31,7 +34,8 @@ const steps = [
     desc: 'Deploy. Launch. Put it in front of real people. Iterate later.',
     Icon: Rocket,
     color: '#98c379',
-    glow: 'rgba(152,195,121,0.3)',
+    cmd: '$ vercel --prod',
+    file: 'ship.sh',
   },
 ];
 
@@ -52,54 +56,51 @@ export default function Workflow() {
         {steps.map((s, i) => (
           <div className="workflow-step-wrap" key={s.num}>
             <div
-              className="workflow-step-card"
+              className="wf-window"
               style={{
                 '--step-color': s.color,
-                '--step-glow': s.glow,
-                '--tilt': i % 2 === 0 ? '-3deg' : '3deg',
+                '--tilt': i % 2 === 0 ? '-2deg' : '2deg',
               }}
             >
-              <div className="step-card-glow" />
+              {/* Mac terminal titlebar */}
+              <div className="wf-titlebar">
+                <div className="wf-dots">
+                  <span className="wf-dot wf-r" />
+                  <span className="wf-dot wf-y" />
+                  <span className="wf-dot wf-g" />
+                </div>
+                <div className="wf-tab">
+                  <s.Icon size={11} strokeWidth={1.8} color={s.color} />
+                  <span>{s.file}</span>
+                </div>
+                <span className="wf-num">{s.num}</span>
+              </div>
 
-              <div className="step-card-head">
-                <div className="step-card-num">{s.num}</div>
-                <div
-                  className="step-card-icon"
-                  style={{
-                    background: `${s.color}15`,
-                    border: `1px solid ${s.color}30`,
-                  }}
-                >
-                  <s.Icon size={20} strokeWidth={1.5} color={s.color} />
+              {/* Body */}
+              <div className="wf-body">
+                <div className="wf-title-row">
+                  <h3 className="wf-title">{s.title}</h3>
+                </div>
+                <p className="wf-desc">{s.desc}</p>
+
+                <div className="wf-cmd">
+                  <span className="wf-cmd-prompt">›</span>
+                  <span className="wf-cmd-text">{s.cmd}</span>
+                  <span className="wf-cmd-cursor" />
                 </div>
               </div>
 
-              <div className="step-card-body">
-                <h3 className="step-card-title">{s.title}</h3>
-                <p className="step-card-desc">{s.desc}</p>
-              </div>
-
-              <div className="step-card-bottom">
-                <span className="step-card-meta">step {i + 1} of 4</span>
-                <div className="step-card-progress">
-                  <div className="step-progress-track">
-                    <div
-                      className="step-progress-fill"
-                      style={{
-                        width: `${((i + 1) / 4) * 100}%`,
-                        background: s.color,
-                        boxShadow: `0 0 8px ${s.glow}`,
-                      }}
-                    />
-                  </div>
-                </div>
+              {/* Status bar bottom */}
+              <div className="wf-statusbar">
+                <span className="wf-status-left">step {i + 1}/4</span>
+                <span className="wf-status-mid">●  ready</span>
+                <span className="wf-status-right">UTF-8</span>
               </div>
             </div>
 
             {i < steps.length - 1 && (
-              <div className="workflow-connector">
-                <div className="connector-line" />
-                <div className="connector-arrow">→</div>
+              <div className="wf-connector">
+                <span>›</span>
               </div>
             )}
           </div>
@@ -117,7 +118,7 @@ export default function Workflow() {
         </div>
         <div className="banner-divider" />
         <div className="banner-item">
-          <div className="banner-icon">🎯</div>
+          <div className="banner-icon">◎</div>
           <div>
             <div className="banner-num">100%</div>
             <div className="banner-label">focus on shipping</div>
@@ -125,7 +126,7 @@ export default function Workflow() {
         </div>
         <div className="banner-divider" />
         <div className="banner-item">
-          <div className="banner-icon">🔁</div>
+          <div className="banner-icon">↻</div>
           <div>
             <div className="banner-num">Iterate</div>
             <div className="banner-label">after launch</div>
