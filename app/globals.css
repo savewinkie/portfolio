@@ -1775,41 +1775,240 @@ section { padding: 100px 40px; position: relative; }
 .project-card:hover .project-name { color: var(--green); transition: color 0.2s; }
 
 /* ── Workflow ── */
-.workflow-steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 6px;
+/* ── Workflow ── */
+.workflow-section {
+  background: var(--bg);
+  position: relative;
   overflow: hidden;
+}
+
+.workflow-section::before {
+  content: '';
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(152,195,121,0.04) 0%, transparent 70%);
+  top: -250px;
+  right: -150px;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: 0;
+  animation: skillFloat 16s ease-in-out infinite;
+}
+
+.workflow-section::after {
+  content: '→';
+  position: absolute;
+  bottom: -80px;
+  left: 5%;
+  font-size: 280px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.012);
+  letter-spacing: -0.05em;
+  pointer-events: none;
+  z-index: 0;
+  font-family: var(--font);
+}
+
+.workflow-section .sec-header,
+.workflow-section .workflow-subtitle,
+.workflow-section .workflow-flow {
+  position: relative;
+  z-index: 1;
+}
+
+.workflow-subtitle {
+  font-size: 12px;
+  margin-bottom: 40px;
+  margin-top: -16px;
+}
+
+.workflow-flow {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
   max-width: 1100px;
-  margin-top: 16px;
+  position: relative;
 }
 
-.workflow-step {
-  background: var(--bg-2);
-  padding: 32px 24px;
-  transition: background 0.2s;
+.workflow-step-wrap {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
 }
 
-.workflow-step:hover { background: var(--bg-3); }
-
-.step-num {
-  font-size: 11px;
-  color: var(--green);
-  letter-spacing: 0.1em;
-  margin-bottom: 12px;
+.workflow-step-card {
+  flex: 1;
+  background: linear-gradient(135deg, var(--bg-2) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.5s;
+  transform: perspective(1000px) rotateY(var(--tilt)) rotateX(2deg);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  min-width: 0;
 }
 
-.step-title {
-  font-size: 16px;
-  font-weight: 600;
+.workflow-step-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent);
+}
+
+.workflow-step-card:hover {
+  transform: perspective(1000px) rotateY(0deg) rotateX(0deg) translateY(-4px);
+  border-color: var(--step-color);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4), 0 0 60px var(--step-glow);
+}
+
+.step-card-glow {
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--step-glow) 0%, transparent 70%);
+  filter: blur(40px);
+  opacity: 0.4;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+
+.workflow-step-card:hover .step-card-glow {
+  opacity: 1;
+}
+
+.step-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+}
+
+.step-card-num {
+  font-family: var(--font);
+  font-size: 10px;
+  color: var(--fg-muted);
+  letter-spacing: 0.2em;
+  font-weight: 500;
+}
+
+.step-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.step-card-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+}
+
+.step-card-title {
+  font-size: 18px;
+  font-weight: 700;
   color: var(--fg-bright);
-  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
 }
 
-.step-desc { font-size: 12px; color: var(--fg-dim); line-height: 1.8; }
+.workflow-step-card:hover .step-card-title {
+  color: var(--step-color);
+  transition: color 0.3s;
+}
+
+.step-card-desc {
+  font-size: 12px;
+  color: var(--fg-dim);
+  line-height: 1.7;
+}
+
+.step-card-bottom {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+.step-card-meta {
+  font-family: var(--font);
+  font-size: 10px;
+  color: var(--fg-muted);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.step-card-progress {
+  flex: 1;
+}
+
+.step-progress-track {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.step-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.workflow-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.connector-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--border), rgba(255,255,255,0.15), var(--border));
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.connector-arrow {
+  font-size: 14px;
+  color: var(--fg-muted);
+  background: var(--bg);
+  padding: 4px 8px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 1;
+  animation: arrowPulse 3s ease-in-out infinite;
+}
+
+@keyframes arrowPulse {
+  0%, 100% { transform: translateX(0); opacity: 0.6; }
+  50% { transform: translateX(3px); opacity: 1; }
+}
 
 /* ── Contact ── */
 .contact-grid {
@@ -2183,6 +2382,9 @@ section { padding: 100px 40px; position: relative; }
 
   /* Workflow */
   .workflow-steps { grid-template-columns: repeat(2,1fr); }
+  .workflow-flow { flex-wrap: wrap; gap: 16px; }
+  .workflow-step-wrap { flex: 1 1 calc(50% - 8px); }
+  .workflow-connector { display: none; }
 
   /* Pricing */
   .pricing-grid { grid-template-columns: 1fr; max-width: 100%; }
@@ -2230,6 +2432,8 @@ section { padding: 100px 40px; position: relative; }
   /* Workflow */
   .workflow-steps { grid-template-columns: 1fr; }
   .workflow-step { padding: 20px; }
+  .workflow-flow { flex-direction: column; }
+  .workflow-step-wrap { flex: 1 1 100%; }
 
   /* Pricing */
   .pricing-card { padding: 24px 20px; }
