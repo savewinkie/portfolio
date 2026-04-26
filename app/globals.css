@@ -590,6 +590,197 @@ section { padding: 100px 40px; position: relative; }
   margin-top: 32px;
 }
 
+/* ── 3D Tilted Code Editor ── */
+.about-left {
+  position: relative;
+  min-width: 0;
+}
+
+.code-editor-3d {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(152,195,121,0.05);
+  transform: perspective(1000px) rotateY(6deg) rotateX(2deg);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  max-width: 100%;
+}
+
+.code-editor-3d:hover {
+  transform: perspective(1000px) rotateY(2deg) rotateX(0deg);
+}
+
+.code-editor-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(152,195,121,0.05) 0%, transparent 50%);
+  pointer-events: none;
+  border-radius: 14px;
+}
+
+.code-editor-bar {
+  padding: 12px 16px;
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.code-editor-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.cd-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.cd-dot:hover { transform: scale(1.15); }
+.cd-r { background: #ff5f57; }
+.cd-y { background: #ffbd2e; }
+.cd-g { background: #28ca42; }
+
+.code-editor-tab {
+  margin-left: auto;
+  font-family: var(--font);
+  font-size: 11px;
+  color: var(--fg-dim);
+  background: var(--bg);
+  padding: 4px 10px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
+
+.code-editor-body {
+  padding: 24px 28px;
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 2;
+  position: relative;
+  z-index: 1;
+}
+
+.cl {
+  display: block;
+  opacity: 0;
+  transform: translateX(-8px);
+  animation: codeIn 0.4s ease forwards;
+}
+.cl:nth-child(1)  { animation-delay: 0.1s; }
+.cl:nth-child(2)  { animation-delay: 0.2s; }
+.cl:nth-child(3)  { animation-delay: 0.3s; }
+.cl:nth-child(4)  { animation-delay: 0.4s; }
+.cl:nth-child(5)  { animation-delay: 0.5s; }
+.cl:nth-child(6)  { animation-delay: 0.6s; }
+.cl:nth-child(7)  { animation-delay: 0.7s; }
+.cl:nth-child(8)  { animation-delay: 0.8s; }
+.cl:nth-child(9)  { animation-delay: 0.9s; }
+.cl:nth-child(10) { animation-delay: 1.0s; }
+
+@keyframes codeIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.ln {
+  color: var(--fg-muted);
+  margin-right: 14px;
+  display: inline-block;
+  width: 18px;
+  text-align: right;
+  user-select: none;
+  font-size: 12px;
+}
+
+.ck { color: #ff7b72; }
+.cv { color: #79c0ff; }
+.cs { color: #a5d6ff; }
+.cf { color: #d2a8ff; }
+.cc { color: var(--fg-muted); font-style: italic; }
+
+.cb {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background: var(--green);
+  margin-left: 2px;
+  animation: cbBlink 1s steps(2) infinite;
+  vertical-align: middle;
+}
+
+@keyframes cbBlink { 50% { opacity: 0; } }
+
+/* Floating badges */
+.float-badge {
+  position: absolute;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-family: var(--font);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  animation: fbFloat 6s ease-in-out infinite;
+  z-index: 2;
+}
+
+.fb-1 { top: 20px; left: -10px; animation-delay: 0s; }
+.fb-2 { bottom: 280px; right: 10px; animation-delay: -3s; }
+
+@keyframes fbFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.fb-ico {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: rgba(152,195,121,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.fb-l { font-size: 10px; color: var(--fg-muted); margin-bottom: 2px; }
+.fb-v { font-weight: 600; color: var(--fg-bright); font-size: 12px; }
+
+.about-p {
+  font-size: 14px;
+  color: var(--fg-dim);
+  line-height: 1.9;
+  margin-bottom: 18px;
+}
+
+.about-p strong { color: var(--fg-bright); font-weight: 600; }
+
+.about-ctas {
+  display: flex;
+  gap: 12px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .code-editor-3d { transform: none; }
+  .float-badge { display: none; }
+  .fb-1, .fb-2 { display: none; }
+}
+
+
 .stat-box {
   background: var(--bg-2);
   border: 1px solid var(--border);
