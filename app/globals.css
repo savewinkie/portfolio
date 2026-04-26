@@ -242,10 +242,12 @@ body::after {
   border-radius: 100px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 6px 6px 6px 18px;
   height: 52px;
-  gap: 16px;
+  gap: 12px;
+  width: max-content;
+  max-width: calc(100vw - 32px);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
@@ -371,6 +373,8 @@ body::after {
   white-space: nowrap;
   font-weight: 500;
 }
+
+.mobile-nav { display: none; }
 
 /* ── Hero ── */
 .hero {
