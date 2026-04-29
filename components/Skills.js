@@ -1,7 +1,4 @@
-'use client';
-
-import { useState } from 'react';
-import { Monitor, Cpu, Wrench, Layers, Globe, Bot, PackageOpen, AppWindow, Zap, FileCode, Briefcase } from 'lucide-react';
+import { Monitor, Cpu, Wrench } from 'lucide-react';
 
 const skills = [
   {
@@ -172,8 +169,6 @@ const Illustration = ({ type, color }) => {
 };
 
 export default function Skills() {
-  const [tab, setTab] = useState('skills');
-
   return (
     <section className="skills-bg" id="skills">
       <div className="sec-header">
@@ -182,44 +177,31 @@ export default function Skills() {
         <div className="sec-line" />
       </div>
 
-      <div className="skills-tabs reveal">
-        <button
-          className={`skills-tab-btn ${tab === 'skills' ? 'active' : ''}`}
-          onClick={() => setTab('skills')}
-        >
-          <span className="skills-tab-num">01</span>
-          <span>Tech Stack</span>
-        </button>
-        <button
-          className={`skills-tab-btn ${tab === 'builds' ? 'active' : ''}`}
-          onClick={() => setTab('builds')}
-        >
-          <span className="skills-tab-num">02</span>
-          <span>What I Build</span>
-        </button>
-      </div>
-
-      {tab === 'skills' && (
-        <div className="skills-grid skills-fade-in" key="skills">
-          {skills.map((s, i) => (
-            <div className="skill-card skill-tilt" key={s.title} style={{ '--tilt': i === 0 ? '-4deg' : i === 1 ? '0deg' : '4deg' }}>
-              <div className="skill-card-head">
-                <span className="skill-card-icon" style={{ color: s.color }}><s.Icon size={15} strokeWidth={1.5} /></span>
-                <span className="skill-card-title">{s.title}</span>
-                <div className="skill-illustration" style={{ color: s.color, filter: `drop-shadow(0 0 10px ${s.glow})` }}>
-                  <Illustration type={s.illustration} color={s.color} />
-                </div>
-              </div>
-              <div className="skill-tags">
-                {s.tags.map(t => <span className="skill-tag" key={t}>{t}</span>)}
+      <div className="skills-grid reveal">
+        {skills.map((s, i) => (
+          <div className="skill-card skill-tilt" key={s.title} style={{ '--tilt': i === 0 ? '-4deg' : i === 1 ? '0deg' : '4deg' }}>
+            <div className="skill-card-head">
+              <span className="skill-card-icon" style={{ color: s.color }}><s.Icon size={15} strokeWidth={1.5} /></span>
+              <span className="skill-card-title">{s.title}</span>
+              <div className="skill-illustration" style={{ color: s.color, filter: `drop-shadow(0 0 10px ${s.glow})` }}>
+                <Illustration type={s.illustration} color={s.color} />
               </div>
             </div>
-          ))}
-        </div>
-      )}
+            <div className="skill-tags">
+              {s.tags.map(t => <span className="skill-tag" key={t}>{t}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
 
-      {tab === 'builds' && (
-        <div className="wib-grid skills-fade-in" key="builds">
+      <div style={{ marginTop: '60px' }}>
+        <div className="sec-header">
+          <span className="sec-prompt">~</span>
+          <h2 className="sec-title"><span>./</span>what-i-build</h2>
+          <div className="sec-line" />
+        </div>
+
+        <div className="wib-grid reveal">
           {builds.map((item, i) => (
             <div className="wib-card wib-tilt" key={item.num} style={{ '--tilt': (i % 2 === 0) ? '-3deg' : '3deg' }}>
               <div className="wib-head">
@@ -237,7 +219,7 @@ export default function Skills() {
             </div>
           ))}
         </div>
-      )}
+      </div>
     </section>
   );
 }
