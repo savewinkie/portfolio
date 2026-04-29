@@ -5,6 +5,7 @@ import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Workflow from '@/components/Workflow';
 import Pricing from '@/components/Pricing';
+import GithubStats from '@/components/GithubStats';
 import Contact from '@/components/Contact';
 import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
@@ -14,12 +15,16 @@ import Particles from '@/components/Particles';
 import MobileNav from '@/components/MobileNav';
 import ScrollToTop from '@/components/ScrollToTop';
 import CursorEffect from '@/components/CursorEffect';
+import SmoothScroll from '@/components/SmoothScroll';
+import SpotlightEffect from '@/components/SpotlightEffect';
 
 export default function Home() {
   return (
     <>
       <ScrollToTop />
       <Loader />
+      <SmoothScroll />
+      <SpotlightEffect />
       <CursorEffect />
       <Particles />
       <ScrollReveal />
@@ -32,6 +37,7 @@ export default function Home() {
         <Projects />
         <Workflow />
         <Pricing />
+        <GithubStats />
         <Contact />
         <Newsletter />
       </main>
