@@ -1,10 +1,13 @@
-import { Monitor, Cpu, Wrench } from 'lucide-react';
+'use client';
+
+import { useState } from 'react';
+import { Monitor, Cpu, Wrench, Layers, Globe, Bot, PackageOpen, AppWindow, Zap, FileCode, Briefcase } from 'lucide-react';
 
 const skills = [
   {
     Icon: Monitor,
     title: 'Frontend',
-    color: 'var(--blue)',
+    color: '#61afef',
     glow: 'rgba(97,175,239,0.4)',
     illustration: 'frontend',
     tags: ['HTML', 'CSS', 'JavaScript', 'React', 'Next.js', 'TailwindCSS', 'UI Design', 'Responsive'],
@@ -12,7 +15,7 @@ const skills = [
   {
     Icon: Cpu,
     title: 'Backend',
-    color: 'var(--green)',
+    color: '#98c379',
     glow: 'rgba(152,195,121,0.4)',
     illustration: 'backend',
     tags: ['Node.js', 'Python', 'REST APIs', 'Databases', 'Authentication', 'Automation'],
@@ -20,7 +23,7 @@ const skills = [
   {
     Icon: Wrench,
     title: 'Tools & AI',
-    color: 'var(--purple)',
+    color: '#c678dd',
     glow: 'rgba(198,120,221,0.4)',
     illustration: 'ai',
     tags: ['VS Code', 'GitHub', 'Claude', 'ChatGPT', 'Figma', 'Vercel', 'AI Tools'],
@@ -74,8 +77,6 @@ const Illustration = ({ type, color }) => {
       return (
         <svg width="60" height="60" viewBox="0 0 60 60" {...common}>
           <path d="M30 10 C20 10 14 18 14 28 C14 36 18 40 22 44 L22 50 L38 50 L38 44 C42 40 46 36 46 28 C46 18 40 10 30 10 Z" />
-          <path d="M22 28 L26 32 L26 38" />
-          <path d="M38 28 L34 32 L34 38" />
           <text x="30" y="32" textAnchor="middle" fill={stroke} fontSize="9" fontWeight="bold" stroke="none" fontFamily="monospace">AI</text>
         </svg>
       );
@@ -89,7 +90,6 @@ const Illustration = ({ type, color }) => {
           <rect x="26" y="28" width="14" height="4" rx="1" />
           <line x1="10" y1="36" x2="46" y2="36" />
           <line x1="10" y1="40" x2="40" y2="40" />
-          <line x1="10" y1="44" x2="36" y2="44" />
         </svg>
       );
     case 'browser':
@@ -103,7 +103,6 @@ const Illustration = ({ type, color }) => {
           <rect x="10" y="22" width="36" height="4" rx="1" />
           <rect x="10" y="29" width="20" height="14" rx="1" />
           <rect x="33" y="29" width="13" height="6" rx="1" />
-          <rect x="33" y="37" width="13" height="6" rx="1" />
         </svg>
       );
     case 'brain':
@@ -111,8 +110,6 @@ const Illustration = ({ type, color }) => {
         <svg width="56" height="56" viewBox="0 0 56 56" {...common}>
           <path d="M28 8 C20 8 14 14 14 22 C14 28 17 32 21 34 L21 44 L35 44 L35 34 C39 32 42 28 42 22 C42 14 36 8 28 8 Z" />
           <text x="28" y="26" textAnchor="middle" fill={stroke} fontSize="8" fontWeight="bold" stroke="none" fontFamily="monospace">AI</text>
-          <line x1="22" y1="44" x2="22" y2="48" />
-          <line x1="34" y1="44" x2="34" y2="48" />
         </svg>
       );
     case 'rocket':
@@ -122,9 +119,6 @@ const Illustration = ({ type, color }) => {
           <circle cx="28" cy="22" r="3" />
           <path d="M18 36 L10 42 L14 44 L18 42" />
           <path d="M38 36 L46 42 L42 44 L38 42" />
-          <path d="M24 46 L24 50" />
-          <path d="M28 46 L28 52" />
-          <path d="M32 46 L32 50" />
         </svg>
       );
     case 'app':
@@ -156,13 +150,9 @@ const Illustration = ({ type, color }) => {
           <rect x="6" y="10" width="44" height="30" rx="3" />
           <path d="M22 40 L22 46 L34 46 L34 40" />
           <line x1="18" y1="46" x2="38" y2="46" />
-          <line x1="6" y1="18" x2="50" y2="18" />
-          <circle cx="11" cy="14" r="1" fill={stroke} />
-          <circle cx="15" cy="14" r="1" fill={stroke} />
           <rect x="12" y="22" width="14" height="14" rx="1" />
           <line x1="30" y1="24" x2="44" y2="24" />
           <line x1="30" y1="28" x2="44" y2="28" />
-          <line x1="30" y1="32" x2="40" y2="32" />
         </svg>
       );
     case 'gear':
@@ -174,10 +164,6 @@ const Illustration = ({ type, color }) => {
           <line x1="28" y1="42" x2="28" y2="48" />
           <line x1="8" y1="28" x2="14" y2="28" />
           <line x1="42" y1="28" x2="48" y2="28" />
-          <line x1="14" y1="14" x2="18" y2="18" />
-          <line x1="38" y1="38" x2="42" y2="42" />
-          <line x1="42" y1="14" x2="38" y2="18" />
-          <line x1="14" y1="42" x2="18" y2="38" />
         </svg>
       );
     default:
@@ -186,6 +172,8 @@ const Illustration = ({ type, color }) => {
 };
 
 export default function Skills() {
+  const [tab, setTab] = useState('skills');
+
   return (
     <section className="skills-bg" id="skills">
       <div className="sec-header">
@@ -194,30 +182,43 @@ export default function Skills() {
         <div className="sec-line" />
       </div>
 
-      <div className="skills-grid reveal">
-        {skills.map((s, i) => (
-          <div className="skill-card skill-tilt" key={s.title} style={{ '--tilt': i === 0 ? '-4deg' : i === 1 ? '0deg' : '4deg' }}>
-            <div className="skill-card-head">
-              <span className="skill-card-icon" style={{ color: s.color }}><s.Icon size={15} strokeWidth={1.5} /></span>
-              <span className="skill-card-title">{s.title}</span>
-              <div className="skill-illustration" style={{ color: s.color, filter: `drop-shadow(0 0 10px ${s.glow})` }}>
-                <Illustration type={s.illustration} color={s.color} />
-              </div>
-            </div>
-            <div className="skill-tags">
-              {s.tags.map(t => <span className="skill-tag" key={t}>{t}</span>)}
-            </div>
-          </div>
-        ))}
+      <div className="skills-tabs reveal">
+        <button
+          className={`skills-tab-btn ${tab === 'skills' ? 'active' : ''}`}
+          onClick={() => setTab('skills')}
+        >
+          <span className="skills-tab-num">01</span>
+          <span>Tech Stack</span>
+        </button>
+        <button
+          className={`skills-tab-btn ${tab === 'builds' ? 'active' : ''}`}
+          onClick={() => setTab('builds')}
+        >
+          <span className="skills-tab-num">02</span>
+          <span>What I Build</span>
+        </button>
       </div>
 
-      <div style={{ marginTop: '60px' }}>
-        <div className="sec-header">
-          <span className="sec-prompt">~</span>
-          <h2 className="sec-title"><span>./</span>what-i-build</h2>
-          <div className="sec-line" />
+      {tab === 'skills' && (
+        <div className="skills-grid reveal">
+          {skills.map((s, i) => (
+            <div className="skill-card skill-tilt" key={s.title} style={{ '--tilt': i === 0 ? '-4deg' : i === 1 ? '0deg' : '4deg' }}>
+              <div className="skill-card-head">
+                <span className="skill-card-icon" style={{ color: s.color }}><s.Icon size={15} strokeWidth={1.5} /></span>
+                <span className="skill-card-title">{s.title}</span>
+                <div className="skill-illustration" style={{ color: s.color, filter: `drop-shadow(0 0 10px ${s.glow})` }}>
+                  <Illustration type={s.illustration} color={s.color} />
+                </div>
+              </div>
+              <div className="skill-tags">
+                {s.tags.map(t => <span className="skill-tag" key={t}>{t}</span>)}
+              </div>
+            </div>
+          ))}
         </div>
+      )}
 
+      {tab === 'builds' && (
         <div className="wib-grid reveal">
           {builds.map((item, i) => (
             <div className="wib-card wib-tilt" key={item.num} style={{ '--tilt': (i % 2 === 0) ? '-3deg' : '3deg' }}>
@@ -236,7 +237,7 @@ export default function Skills() {
             </div>
           ))}
         </div>
-      </div>
+      )}
     </section>
   );
 }
