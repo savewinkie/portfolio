@@ -1027,7 +1027,7 @@ body::after {
 }
 
 /* ── Sections ── */
-section { padding: 100px 40px; position: relative; background: var(--bg); }
+section { padding: 100px 40px; position: relative; }
 
 .sec-header {
   display: flex;
@@ -1371,53 +1371,7 @@ section { padding: 100px 40px; position: relative; background: var(--bg); }
 
 /* ── Skills ── */
 .skills-bg {
-  background: var(--bg);
-  position: relative;
-  overflow: hidden;
-}
-
-.skills-fade-in {
-  animation: skillsFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes skillsFadeIn {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.skills-bg::before {
-  content: '';
-  position: absolute;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(97,175,239,0.06) 0%, transparent 70%);
-  top: -200px;
-  left: -200px;
-  filter: blur(60px);
-  pointer-events: none;
-  z-index: 0;
-  animation: skillFloat 14s ease-in-out infinite;
-}
-
-.skills-bg::after {
-  content: '';
-  position: absolute;
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(198,120,221,0.05) 0%, transparent 70%);
-  bottom: -150px;
-  right: -150px;
-  filter: blur(60px);
-  pointer-events: none;
-  z-index: 0;
-  animation: skillFloat 18s ease-in-out infinite reverse;
-}
-
-@keyframes skillFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(40px, -30px) scale(1.1); }
+  background: transparent;
 }
 
 .skills-bg .sec-header,
@@ -1426,35 +1380,6 @@ section { padding: 100px 40px; position: relative; background: var(--bg); }
 .skills-bg > div {
   position: relative;
   z-index: 1;
-}
-
-/* Code rain decoration */
-.skills-bg .skills-grid::before {
-  content: '< />';
-  position: absolute;
-  top: -50px;
-  right: 20px;
-  font-family: var(--font);
-  font-size: 200px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.015);
-  letter-spacing: -0.05em;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.skills-bg .wib-grid::after {
-  content: '{ }';
-  position: absolute;
-  bottom: -100px;
-  left: 30px;
-  font-family: var(--font);
-  font-size: 240px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.012);
-  letter-spacing: -0.05em;
-  pointer-events: none;
-  z-index: 0;
 }
 
 .skills-grid {
