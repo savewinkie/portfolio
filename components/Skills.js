@@ -200,7 +200,7 @@ export default function Skills() {
       </div>
 
       {tab === 'skills' && (
-        <div className="skills-grid reveal">
+        <div className="skills-grid skills-fade-in" key="skills">
           {skills.map((s, i) => (
             <div className="skill-card skill-tilt" key={s.title} style={{ '--tilt': i === 0 ? '-4deg' : i === 1 ? '0deg' : '4deg' }}>
               <div className="skill-card-head">
@@ -219,7 +219,7 @@ export default function Skills() {
       )}
 
       {tab === 'builds' && (
-        <div className="wib-grid reveal">
+        <div className="wib-grid skills-fade-in" key="builds">
           {builds.map((item, i) => (
             <div className="wib-card wib-tilt" key={item.num} style={{ '--tilt': (i % 2 === 0) ? '-3deg' : '3deg' }}>
               <div className="wib-head">
