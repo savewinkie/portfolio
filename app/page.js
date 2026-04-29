@@ -36,8 +36,8 @@ export default function Home() {
         <Skills />
         <Projects />
         <Workflow />
-        <Pricing />
         <GithubStats />
+        <Pricing />
         <Contact />
         <Newsletter />
       </main>
