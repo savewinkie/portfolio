@@ -260,7 +260,7 @@ export default function Skills() {
               </button>
             </div>
 
-            <div className="builds-modal-body">
+            <div className="builds-modal-body" data-lenis-prevent>
               {builds.map((b, i) => (
                 <div className="build-item" key={b.title} style={{ '--delay': `${i * 0.04}s` }}>
                   <div className="build-item-icon" style={{ color: b.color, background: `${b.color}15`, borderColor: `${b.color}30` }}>
