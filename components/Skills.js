@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Code2, Server, Sparkles, Layers, Globe, Bot, PackageOpen, AppWindow, Zap, FileCode, Briefcase, X, Mail } from 'lucide-react';
 
 const groups = [
@@ -36,27 +36,90 @@ const builds = [
 ];
 
 export default function Skills() {
-  const [open, setOpen] = useState(false);
+  const [popupShown, setPopupShown] = useState(false);  // has the popup been triggered?
+  const [popupVisible, setPopupVisible] = useState(false);  // is the popup currently visible?
+  const [opened, setOpened] = useState(false);  // has user clicked letter to see builds?
+  const [drawerOpen, setDrawerOpen] = useState(false);  // sliding drawer for builds
+  const sectionRef = useRef(null);
+  const fadeTimeoutRef = useRef(null);
 
-  // Lock scroll when open
+  // IntersectionObserver — when user enters the skills section, start 5s timer
   useEffect(() => {
-    if (open) {
+    if (popupShown) return;
+    if (!sectionRef.current) return;
+
+    let timer;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !popupShown) {
+            timer = setTimeout(() => {
+              setPopupVisible(true);
+              setPopupShown(true);
+            }, 5000);
+          } else if (!entry.isIntersecting && timer) {
+            clearTimeout(timer);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(sectionRef.current);
+    return () => {
+      if (timer) clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [popupShown]);
+
+  // Auto-fade popup after 15 seconds if not interacted with
+  useEffect(() => {
+    if (popupVisible && !opened) {
+      fadeTimeoutRef.current = setTimeout(() => {
+        setPopupVisible(false);
+      }, 15000);
+    }
+    return () => {
+      if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
+    };
+  }, [popupVisible, opened]);
+
+  // Lock scroll when popup is centered
+  useEffect(() => {
+    if (popupVisible || drawerOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [open]);
+  }, [popupVisible, drawerOpen]);
 
-  // Close on escape
+  // Escape closes everything
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        if (drawerOpen) setDrawerOpen(false);
+        else if (popupVisible) setPopupVisible(false);
+      }
+    };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, []);
+  }, [popupVisible, drawerOpen]);
+
+  const handleLetterClick = () => {
+    if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
+    setOpened(true);
+    setDrawerOpen(true);
+    // Close the centered popup since drawer takes over
+    setTimeout(() => setPopupVisible(false), 300);
+  };
+
+  const closePopup = () => {
+    setPopupVisible(false);
+  };
 
   return (
-    <section className="skills-bg" id="skills">
+    <section className="skills-bg" id="skills" ref={sectionRef}>
       <div className="sec-header">
         <span className="sec-prompt">~</span>
         <h2 className="sec-title"><span>./</span>skills</h2>
@@ -84,12 +147,15 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* RIGHT: Sticky letter/envelope */}
+        {/* RIGHT: Sticky resting letter (after popup is dismissed/opened) */}
         <div className="skills-side">
           <div className="letter-sticky">
             <button
-              className={`letter ${open ? 'opening' : ''}`}
-              onClick={() => setOpen(true)}
+              className={`letter letter-resting ${popupVisible ? 'hidden' : ''}`}
+              onClick={() => {
+                setOpened(true);
+                setDrawerOpen(true);
+              }}
               aria-label="Open what I build"
             >
               <div className="letter-stamp">
@@ -103,7 +169,6 @@ export default function Skills() {
                 <div className="letter-line short" />
               </div>
               <div className="letter-corner">✉</div>
-              <div className="letter-shadow" />
               <div className="letter-cta">
                 <span className="letter-cta-label mono">// click to open</span>
                 <span className="letter-cta-title">What I Build</span>
@@ -114,20 +179,59 @@ export default function Skills() {
         </div>
       </div>
 
-      {/* Foggy backdrop */}
+      {/* CENTER POPUP — appears 5s after entering skills */}
+      <div className={`letter-popup-overlay ${popupVisible ? 'visible' : ''}`}>
+        <div className="letter-popup-bg" onClick={closePopup} />
+
+        <button
+          className="letter-popup-close"
+          onClick={closePopup}
+          aria-label="Close"
+        >
+          <X size={20} strokeWidth={2.2} />
+        </button>
+
+        <div className="letter-popup-wrap">
+          <button
+            className={`letter letter-big ${popupVisible ? 'pop-in' : ''}`}
+            onClick={handleLetterClick}
+            aria-label="Open what I build"
+          >
+            <div className="letter-stamp">
+              <Mail size={20} strokeWidth={1.8} />
+            </div>
+            <div className="letter-flap" />
+            <div className="letter-body">
+              <div className="letter-line" />
+              <div className="letter-line short" />
+              <div className="letter-line" />
+              <div className="letter-line short" />
+              <div className="letter-line" />
+              <div className="letter-line short" />
+            </div>
+            <div className="letter-corner">✉</div>
+          </button>
+          <div className="letter-popup-caption">
+            <span className="mono">// you have a new letter</span>
+            <h3>What I Build</h3>
+            <p className="mono">click the letter to open →</p>
+          </div>
+        </div>
+      </div>
+
+      {/* SLIDE DRAWER — opens after letter click */}
       <div
-        className={`builds-backdrop ${open ? 'open' : ''}`}
-        onClick={() => setOpen(false)}
+        className={`builds-backdrop ${drawerOpen ? 'open' : ''}`}
+        onClick={() => setDrawerOpen(false)}
       />
 
-      {/* Drawer (slides from right with the open letter) */}
-      <aside className={`builds-drawer ${open ? 'open' : ''}`} aria-hidden={!open}>
+      <aside className={`builds-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
         <div className="builds-drawer-header">
           <div>
             <div className="builds-drawer-pre mono">// what i build</div>
             <h3 className="builds-drawer-title">Things I ship</h3>
           </div>
-          <button className="builds-drawer-close" onClick={() => setOpen(false)} aria-label="Close">
+          <button className="builds-drawer-close" onClick={() => setDrawerOpen(false)} aria-label="Close">
             <X size={18} strokeWidth={2} />
           </button>
         </div>
