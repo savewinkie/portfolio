@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { Code2, Server, Sparkles, Layers, Globe, Bot, PackageOpen, AppWindow, Zap, FileCode, Briefcase, X, Mail } from 'lucide-react';
 
 const groups = [
@@ -35,30 +36,55 @@ const builds = [
   { Icon: Zap,         color: '#e06c75', title: 'Automation Tools',  desc: 'Scripts and bots that save hours of work.',            tags: ['Python', 'Node.js'] },
 ];
 
+// Portal wrapper — renders OUTSIDE the section so transforms don't break position:fixed
+function Portal({ children }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  return createPortal(children, document.body);
+}
+
+const LetterVisual = ({ size = 'small' }) => (
+  <>
+    <div className="letter-stamp">
+      <Mail size={size === 'big' ? 20 : 14} strokeWidth={1.8} />
+    </div>
+    <div className="letter-flap" />
+    <div className="letter-body">
+      <div className="letter-line" />
+      <div className="letter-line short" />
+      <div className="letter-line" />
+      <div className="letter-line short" />
+      {size === 'big' && <><div className="letter-line" /><div className="letter-line short" /></>}
+    </div>
+    <div className="letter-corner">✉</div>
+  </>
+);
+
 export default function Skills() {
-  const [popupShown, setPopupShown] = useState(false);  // has the popup been triggered?
-  const [popupVisible, setPopupVisible] = useState(false);  // is the popup currently visible?
-  const [opened, setOpened] = useState(false);  // has user clicked letter to see builds?
-  const [drawerOpen, setDrawerOpen] = useState(false);  // sliding drawer for builds
+  const [popupResolved, setPopupResolved] = useState(false);  // popup is done (dismissed/clicked/expired)
+  const [popupVisible, setPopupVisible] = useState(false);    // center popup is visible
+  const [buildsVisible, setBuildsVisible] = useState(false);  // centered builds modal
   const sectionRef = useRef(null);
   const fadeTimeoutRef = useRef(null);
+  const triggerTimerRef = useRef(null);
+  const scrollYRef = useRef(0);
 
-  // IntersectionObserver — when user enters the skills section, start 5s timer
+  // 5s timer when entering skills section
   useEffect(() => {
-    if (popupShown) return;
+    if (popupResolved) return;
     if (!sectionRef.current) return;
 
-    let timer;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !popupShown) {
-            timer = setTimeout(() => {
+          if (entry.isIntersecting && !popupResolved && !popupVisible) {
+            triggerTimerRef.current = setTimeout(() => {
               setPopupVisible(true);
-              setPopupShown(true);
             }, 5000);
-          } else if (!entry.isIntersecting && timer) {
-            clearTimeout(timer);
+          } else if (!entry.isIntersecting && triggerTimerRef.current) {
+            clearTimeout(triggerTimerRef.current);
+            triggerTimerRef.current = null;
           }
         });
       },
@@ -67,56 +93,77 @@ export default function Skills() {
 
     observer.observe(sectionRef.current);
     return () => {
-      if (timer) clearTimeout(timer);
+      if (triggerTimerRef.current) clearTimeout(triggerTimerRef.current);
       observer.disconnect();
     };
-  }, [popupShown]);
+  }, [popupResolved, popupVisible]);
 
-  // Auto-fade popup after 15 seconds if not interacted with
+  // Auto-fade popup after 15s
   useEffect(() => {
-    if (popupVisible && !opened) {
+    if (popupVisible) {
       fadeTimeoutRef.current = setTimeout(() => {
         setPopupVisible(false);
+        setPopupResolved(true);
       }, 15000);
     }
     return () => {
       if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
     };
-  }, [popupVisible, opened]);
+  }, [popupVisible]);
 
-  // Lock scroll when popup is centered
+  // Robust scroll lock — works with Lenis smooth scroll too
   useEffect(() => {
-    if (popupVisible || drawerOpen) {
-      document.body.style.overflow = 'hidden';
+    const isLocked = popupVisible || buildsVisible;
+    if (isLocked) {
+      scrollYRef.current = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollYRef.current}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
+      document.documentElement.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
+      document.documentElement.style.overflow = '';
+      if (scrollYRef.current) {
+        window.scrollTo(0, scrollYRef.current);
+      }
     }
-    return () => { document.body.style.overflow = ''; };
-  }, [popupVisible, drawerOpen]);
+  }, [popupVisible, buildsVisible]);
 
-  // Escape closes everything
+  // Escape closes
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') {
-        if (drawerOpen) setDrawerOpen(false);
-        else if (popupVisible) setPopupVisible(false);
+        if (buildsVisible) setBuildsVisible(false);
+        else if (popupVisible) {
+          setPopupVisible(false);
+          setPopupResolved(true);
+        }
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [popupVisible, drawerOpen]);
+  }, [popupVisible, buildsVisible]);
 
   const handleLetterClick = () => {
     if (fadeTimeoutRef.current) clearTimeout(fadeTimeoutRef.current);
-    setOpened(true);
-    setDrawerOpen(true);
-    // Close the centered popup since drawer takes over
-    setTimeout(() => setPopupVisible(false), 300);
+    setPopupVisible(false);
+    setPopupResolved(true);
+    setBuildsVisible(true);
   };
 
   const closePopup = () => {
     setPopupVisible(false);
+    setPopupResolved(true);
   };
+
+  // Resting letter only shows AFTER popup has been resolved
+  const showResting = popupResolved && !popupVisible && !buildsVisible;
 
   return (
     <section className="skills-bg" id="skills" ref={sectionRef}>
@@ -127,7 +174,7 @@ export default function Skills() {
       </div>
 
       <div className="skills-layout reveal">
-        {/* LEFT: Skills grid */}
+        {/* LEFT: Skills */}
         <div className="skills-content">
           {groups.map((g) => (
             <div className="skill-block" key={g.label}>
@@ -147,28 +194,16 @@ export default function Skills() {
           ))}
         </div>
 
-        {/* RIGHT: Sticky resting letter (after popup is dismissed/opened) */}
+        {/* RIGHT: Resting letter (only after popup resolved) */}
         <div className="skills-side">
           <div className="letter-sticky">
             <button
-              className={`letter letter-resting ${popupVisible ? 'hidden' : ''}`}
-              onClick={() => {
-                setOpened(true);
-                setDrawerOpen(true);
-              }}
+              className={`letter letter-resting ${showResting ? 'show' : ''}`}
+              onClick={() => setBuildsVisible(true)}
               aria-label="Open what I build"
+              tabIndex={showResting ? 0 : -1}
             >
-              <div className="letter-stamp">
-                <Mail size={14} strokeWidth={1.8} />
-              </div>
-              <div className="letter-flap" />
-              <div className="letter-body">
-                <div className="letter-line" />
-                <div className="letter-line short" />
-                <div className="letter-line" />
-                <div className="letter-line short" />
-              </div>
-              <div className="letter-corner">✉</div>
+              <LetterVisual />
               <div className="letter-cta">
                 <span className="letter-cta-label mono">// click to open</span>
                 <span className="letter-cta-title">What I Build</span>
@@ -179,85 +214,76 @@ export default function Skills() {
         </div>
       </div>
 
-      {/* CENTER POPUP — appears 5s after entering skills */}
-      <div className={`letter-popup-overlay ${popupVisible ? 'visible' : ''}`}>
-        <div className="letter-popup-bg" onClick={closePopup} />
+      {/* CENTERED POPUP via Portal */}
+      <Portal>
+        <div className={`letter-popup-overlay ${popupVisible ? 'visible' : ''}`}>
+          <div className="letter-popup-bg" onClick={closePopup} />
 
-        <button
-          className="letter-popup-close"
-          onClick={closePopup}
-          aria-label="Close"
-        >
-          <X size={20} strokeWidth={2.2} />
-        </button>
-
-        <div className="letter-popup-wrap">
           <button
-            className={`letter letter-big ${popupVisible ? 'pop-in' : ''}`}
-            onClick={handleLetterClick}
-            aria-label="Open what I build"
+            className="letter-popup-close"
+            onClick={closePopup}
+            aria-label="Close"
           >
-            <div className="letter-stamp">
-              <Mail size={20} strokeWidth={1.8} />
-            </div>
-            <div className="letter-flap" />
-            <div className="letter-body">
-              <div className="letter-line" />
-              <div className="letter-line short" />
-              <div className="letter-line" />
-              <div className="letter-line short" />
-              <div className="letter-line" />
-              <div className="letter-line short" />
-            </div>
-            <div className="letter-corner">✉</div>
+            <X size={20} strokeWidth={2.2} />
           </button>
-          <div className="letter-popup-caption">
-            <span className="mono">// you have a new letter</span>
-            <h3>What I Build</h3>
-            <p className="mono">click the letter to open →</p>
+
+          <div className="letter-popup-wrap">
+            <button
+              className={`letter letter-big ${popupVisible ? 'pop-in' : ''}`}
+              onClick={handleLetterClick}
+              aria-label="Open what I build"
+            >
+              <LetterVisual size="big" />
+            </button>
+            <div className="letter-popup-caption">
+              <span className="mono">// you have a new letter</span>
+              <h3>What I Build</h3>
+              <p className="mono">click the letter to open →</p>
+            </div>
           </div>
         </div>
-      </div>
+      </Portal>
 
-      {/* SLIDE DRAWER — opens after letter click */}
-      <div
-        className={`builds-backdrop ${drawerOpen ? 'open' : ''}`}
-        onClick={() => setDrawerOpen(false)}
-      />
+      {/* CENTERED BUILDS MODAL via Portal */}
+      <Portal>
+        <div className={`builds-modal-overlay ${buildsVisible ? 'visible' : ''}`}>
+          <div className="builds-modal-bg" onClick={() => setBuildsVisible(false)} />
 
-      <aside className={`builds-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
-        <div className="builds-drawer-header">
-          <div>
-            <div className="builds-drawer-pre mono">// what i build</div>
-            <h3 className="builds-drawer-title">Things I ship</h3>
-          </div>
-          <button className="builds-drawer-close" onClick={() => setDrawerOpen(false)} aria-label="Close">
-            <X size={18} strokeWidth={2} />
-          </button>
-        </div>
-
-        <div className="builds-drawer-body">
-          {builds.map((b, i) => (
-            <div className="build-item" key={b.title} style={{ '--delay': `${i * 0.04}s` }}>
-              <div className="build-item-icon" style={{ color: b.color, background: `${b.color}15`, borderColor: `${b.color}30` }}>
-                <b.Icon size={16} strokeWidth={1.8} />
+          <div className="builds-modal">
+            <div className="builds-modal-header">
+              <div>
+                <div className="builds-modal-pre mono">// what i build</div>
+                <h3 className="builds-modal-title">Things I ship</h3>
               </div>
-              <div className="build-item-info">
-                <div className="build-item-title">{b.title}</div>
-                <div className="build-item-desc">{b.desc}</div>
-                <div className="build-item-tags">
-                  {b.tags.map(t => <span className="build-item-tag" key={t}>{t}</span>)}
+              <button className="builds-modal-close" onClick={() => setBuildsVisible(false)} aria-label="Close">
+                <X size={18} strokeWidth={2} />
+              </button>
+            </div>
+
+            <div className="builds-modal-body">
+              {builds.map((b, i) => (
+                <div className="build-item" key={b.title} style={{ '--delay': `${i * 0.04}s` }}>
+                  <div className="build-item-icon" style={{ color: b.color, background: `${b.color}15`, borderColor: `${b.color}30` }}>
+                    <b.Icon size={16} strokeWidth={1.8} />
+                  </div>
+                  <div className="build-item-info">
+                    <div className="build-item-title">{b.title}</div>
+                    <div className="build-item-desc">{b.desc}</div>
+                    <div className="build-item-tags">
+                      {b.tags.map(t => <span className="build-item-tag" key={t}>{t}</span>)}
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <div className="builds-drawer-footer">
-          <span className="mono">{builds.length} items</span>
-          <span className="mono">esc to close</span>
+            <div className="builds-modal-footer">
+              <span className="mono">{builds.length} items</span>
+              <span className="mono">esc to close</span>
+            </div>
+          </div>
         </div>
-      </aside>
+      </Portal>
     </section>
   );
 }
