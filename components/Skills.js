@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Code2, Server, Sparkles, Layers, Globe, Bot, PackageOpen, AppWindow, Zap, FileCode, Briefcase, X, FolderOpen } from 'lucide-react';
+import { Code2, Server, Sparkles, Layers, Globe, Bot, PackageOpen, AppWindow, Zap, FileCode, Briefcase, X, Mail } from 'lucide-react';
 
 const groups = [
   {
@@ -38,7 +38,7 @@ const builds = [
 export default function Skills() {
   const [open, setOpen] = useState(false);
 
-  // Lock scroll when drawer open
+  // Lock scroll when open
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';
@@ -63,41 +63,64 @@ export default function Skills() {
         <div className="sec-line" />
       </div>
 
-      <div className="skills-list reveal">
-        {groups.map((g) => (
-          <div className="skill-row" key={g.label}>
-            <div className="skill-row-head">
-              <span className="skill-row-icon" style={{ color: g.color, background: `${g.color}15`, borderColor: `${g.color}30` }}>
-                <g.Icon size={14} strokeWidth={1.8} />
-              </span>
-              <span className="skill-row-label">{g.label}</span>
+      <div className="skills-layout reveal">
+        {/* LEFT: Skills grid */}
+        <div className="skills-content">
+          {groups.map((g) => (
+            <div className="skill-block" key={g.label}>
+              <div className="skill-block-head">
+                <span className="skill-block-icon" style={{ color: g.color, background: `${g.color}15`, borderColor: `${g.color}30` }}>
+                  <g.Icon size={15} strokeWidth={1.8} />
+                </span>
+                <h3 className="skill-block-title">{g.label}</h3>
+                <span className="skill-block-count">{g.skills.length}</span>
+              </div>
+              <div className="skill-block-tags">
+                {g.skills.map((s) => (
+                  <span className="skill-chip-v2" key={s}>{s}</span>
+                ))}
+              </div>
             </div>
-            <div className="skill-row-tags">
-              {g.skills.map((s) => (
-                <span className="skill-chip" key={s}>{s}</span>
-              ))}
-            </div>
+          ))}
+        </div>
+
+        {/* RIGHT: Sticky letter/envelope */}
+        <div className="skills-side">
+          <div className="letter-sticky">
+            <button
+              className={`letter ${open ? 'opening' : ''}`}
+              onClick={() => setOpen(true)}
+              aria-label="Open what I build"
+            >
+              <div className="letter-stamp">
+                <Mail size={14} strokeWidth={1.8} />
+              </div>
+              <div className="letter-flap" />
+              <div className="letter-body">
+                <div className="letter-line" />
+                <div className="letter-line short" />
+                <div className="letter-line" />
+                <div className="letter-line short" />
+              </div>
+              <div className="letter-corner">✉</div>
+              <div className="letter-shadow" />
+              <div className="letter-cta">
+                <span className="letter-cta-label mono">// click to open</span>
+                <span className="letter-cta-title">What I Build</span>
+                <span className="letter-cta-meta mono">8 things →</span>
+              </div>
+            </button>
           </div>
-        ))}
+        </div>
       </div>
 
-      {/* CTA button to open drawer */}
-      <button
-        className="builds-cta reveal"
-        onClick={() => setOpen(true)}
-      >
-        <FolderOpen size={16} strokeWidth={1.8} />
-        <span>see what i build</span>
-        <span className="builds-cta-arrow">→</span>
-      </button>
-
-      {/* Backdrop */}
+      {/* Foggy backdrop */}
       <div
         className={`builds-backdrop ${open ? 'open' : ''}`}
         onClick={() => setOpen(false)}
       />
 
-      {/* Slide-out drawer */}
+      {/* Drawer (slides from right with the open letter) */}
       <aside className={`builds-drawer ${open ? 'open' : ''}`} aria-hidden={!open}>
         <div className="builds-drawer-header">
           <div>
