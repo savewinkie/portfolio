@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 // small plus icon for the card corners
 function Plus({ className }) {
@@ -27,6 +28,9 @@ const icons = {
 export default function ContactModal({ open, onClose, plan = '' }) {
   const [sent, setSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -38,7 +42,7 @@ export default function ContactModal({ open, onClose, plan = '' }) {
     return () => document.removeEventListener('keydown', onKey, true);
   }, [open, onClose]);
 
-  if (!open) return null;
+  if (!open || !mounted) return null;
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -59,7 +63,7 @@ export default function ContactModal({ open, onClose, plan = '' }) {
     setSending(false);
   }
 
-  return (
+  return createPortal(
     <div className="contact-overlay" onClick={onClose}>
       <div className="contact-card" onClick={(e) => e.stopPropagation()}>
         <Plus className="cc-plus tl" />
@@ -115,6 +119,7 @@ export default function ContactModal({ open, onClose, plan = '' }) {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
