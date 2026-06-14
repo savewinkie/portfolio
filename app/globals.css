@@ -317,61 +317,83 @@ body {
 @media (max-width: 800px) {
   /* use dynamic viewport height so panels fit under the browser bar */
   .page, .projects-page { height: 100dvh; }
-  .about-inner { height: 100dvh; }
+  .about-inner { height: auto; min-height: 100dvh; }
   .pricing-inner { min-height: 100dvh; }
+
+  /* ── NAV ARROWS: bottom-center pair, out of the content ── */
+  .arrow {
+    height: 44px; width: 44px; top: auto; bottom: 22px; transform: none;
+    background: color-mix(in srgb, var(--bg) 55%, transparent);
+  }
+  .arrow:active { transform: scale(0.9); }
+  .arrow:hover { background: var(--fg); }
+  .arrow .arr-chev svg { width: 20px; height: 20px; }
+  .arrow.left-a { left: 50%; margin-left: -52px; right: auto; }
+  .arrow.right-a { right: 50%; margin-right: -52px; left: auto; animation: none; }
 
   /* HOME */
   .page { flex-direction: column; }
-  .left { width: 100%; padding: 72px 26px 28px; font-size: 14px; }
-  .left h1 { margin-bottom: 36px; }
-  .who { margin-bottom: 32px; }
-  .rows { font-size: 13px; }
-  .row { grid-template-columns: 1fr 1fr auto; gap: 8px; }
-  .right { width: 100%; flex: 1; min-height: 40vh; }
-  .footer-links { position: static; margin-top: 28px; flex-wrap: wrap; gap: 4px; }
-  .top-controls { top: 20px; right: 20px; }
+  .left { width: 100%; padding: 60px 24px 24px; font-size: 13px; }
+  .left h1 { font-size: 15px; margin-bottom: 28px; }
+  .who { margin-bottom: 26px; }
+  .who h2, .who h3 { font-size: 15px; }
+  .rows { font-size: 12.5px; }
+  .row { grid-template-columns: 1fr 0.8fr auto; gap: 6px; }
+  .right { width: 100%; flex: 1; min-height: 38vh; }
+  .footer-links { position: static; margin-top: 24px; flex-wrap: wrap; gap: 2px; font-size: 16px; }
+  .top-controls { top: 18px; right: 18px; }
 
   /* ABOUT */
-  .about-inner { padding: 72px 26px; }
+  .about-inner { padding: 64px 24px 90px; justify-content: flex-start; }
+  .about-inner h1 { font-size: 28px; margin-bottom: 22px; }
+  .about-inner p { font-size: 14px; line-height: 1.7; margin-bottom: 14px; }
+  .about-meta { gap: 18px 16px; }
 
   /* PROJECTS */
   .projects-page { flex-direction: column; }
-  .proj-left { width: 100%; padding: 64px 26px 20px; }
-  .proj-left h1 { margin-bottom: 28px; }
-  .proj-right { width: 100%; flex: 1; min-height: 44vh; }
-  .proj-watermark { font-size: 110px; top: 6px; right: 18px; }
-  .proj-detail-overlay { padding: 24px; }
-  .proj-progress { right: 14px; gap: 9px; }
-  .proj-row { padding: 12px 12px; }
-  .proj-title { font-size: 17px; }
+  .proj-left { width: 100%; padding: 56px 24px 16px; }
+  .proj-left h1 { font-size: 26px; margin-bottom: 22px; }
+  .proj-left h2 { font-size: 15px; }
+  .proj-right { width: 100%; flex: 1; min-height: 46vh; }
+  .proj-watermark { font-size: 96px; top: 4px; right: 16px; }
+  .proj-detail-overlay { padding: 22px 22px 76px; }
+  .proj-detail-overlay .d-name { font-size: 24px; }
+  .proj-detail-overlay p { font-size: 13px; }
+  .proj-progress { right: 12px; top: 38%; gap: 8px; }
+  .proj-row { padding: 11px 12px; }
+  .proj-title { font-size: 16px; }
+  .proj-github { font-size: 12px; padding: 10px 16px; }
 
   /* PRICING */
-  .pricing-inner { padding: 72px 22px 40px; height: auto; min-height: 100vh; }
-  .pricing-head { margin-bottom: 32px; }
+  .pricing-inner { padding: 56px 18px 90px; height: auto; }
+  .pricing-head { margin-bottom: 26px; }
+  .pricing-head h1 { font-size: 28px; }
+  .pricing-sub { font-size: 13px; }
   .tier-grid { grid-template-columns: 1fr; gap: 14px; }
+  .tier { padding: 26px 24px; }
   .tier.featured { transform: none; }
   .tier.featured:hover { transform: scale(1.01); }
+  .tier-amount { font-size: 38px; }
   .budget-gets { grid-template-columns: 1fr; }
-  .budget-card { padding: 30px 22px 26px; }
+  .budget-card { padding: 28px 22px 24px; }
 
   /* CONTACT MODAL */
-  .contact-card { grid-template-columns: 1fr; max-width: 440px; max-height: 88vh; overflow-y: auto; }
-  .cc-form-wrap { border-left: none; border-top: 1px solid color-mix(in srgb, var(--fg) 12%, transparent); padding: 26px; }
-  .cc-info { padding: 30px 24px 22px; }
-  .cc-info h2 { font-size: 24px; }
-  .cc-plus { display: none; } /* corner marks look off on small screens */
-
-  /* NAV ARROWS — smaller and lower so they don't cover content */
-  .arrow { height: 46px; width: 46px; }
-  .arrow .arr-chev svg { width: 21px; height: 21px; }
-  .arrow.left-a { left: 16px; }
-  .arrow.right-a { right: 16px; }
+  .contact-card { grid-template-columns: 1fr; max-width: 440px; max-height: 86vh; overflow-y: auto; }
+  .cc-form-wrap { border-left: none; border-top: 1px solid color-mix(in srgb, var(--fg) 12%, transparent); padding: 24px; }
+  .cc-info { padding: 28px 24px 20px; }
+  .cc-info h2 { font-size: 22px; }
+  .cc-info > p { font-size: 13px; }
+  .cc-plus { display: none; }
 }
 
 /* very small phones */
 @media (max-width: 380px) {
-  .left { padding: 64px 20px 24px; }
-  .proj-left { padding: 60px 20px 18px; }
-  .pricing-inner { padding: 64px 16px 36px; }
-  .cc-info h2 { font-size: 22px; }
+  .left { padding: 52px 18px 20px; }
+  .left h1 { font-size: 14px; }
+  .about-inner h1 { font-size: 24px; }
+  .about-inner p { font-size: 13px; }
+  .proj-left h1 { font-size: 23px; }
+  .pricing-head h1 { font-size: 24px; }
+  .pricing-inner { padding: 52px 14px 88px; }
+  .cc-info h2 { font-size: 20px; }
 }
