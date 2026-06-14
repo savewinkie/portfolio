@@ -1,5 +1,12 @@
 ﻿import './globals.css';
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#000000',
+};
+
 export const metadata = {
   metadataBase: new URL('https://linkb.dev'),
   title: 'Linkb — Developer from Amsterdam | linkb.dev',

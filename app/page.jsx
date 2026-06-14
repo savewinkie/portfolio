@@ -48,6 +48,35 @@ export default function Home() {
     return () => window.removeEventListener('wheel', onWheel);
   }, [contact]);
 
+  // touch swipe navigation (mobile)
+  useEffect(() => {
+    let startX = 0, startY = 0, tracking = false;
+    function onStart(e) {
+      if (contact !== null) return;
+      if (e.target.closest('.contact-card, .budget, textarea, input, a, button')) { tracking = false; return; }
+      tracking = true;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }
+    function onEnd(e) {
+      if (!tracking || contact !== null) return;
+      tracking = false;
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      // horizontal swipe, and clearly more horizontal than vertical
+      if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) {
+        if (dx < 0) setPage((p) => Math.min(MAX, p + 1)); // swipe left → next
+        else setPage((p) => Math.max(0, p - 1));          // swipe right → prev
+      }
+    }
+    window.addEventListener('touchstart', onStart, { passive: true });
+    window.addEventListener('touchend', onEnd, { passive: true });
+    return () => {
+      window.removeEventListener('touchstart', onStart);
+      window.removeEventListener('touchend', onEnd);
+    };
+  }, [contact]);
+
   return (
     <>
       <div className="stage" data-page={page === 0 ? undefined : page}>
