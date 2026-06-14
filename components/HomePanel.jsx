@@ -46,9 +46,8 @@ export default function HomePanel({ onNext }) {
 
           <div className="footer-links">
             <a href="https://github.com/savewinkie" target="_blank" rel="noreferrer">GitHub</a>
-            <a href="#">Twitter</a>
-            <a href="mailto:link.bernath5@gmail.com">Email</a>
-            <a href="#">Blog</a>
+            <a href="https://x.com/linkb_" target="_blank" rel="noreferrer">X</a>
+            <a href="mailto:contact.linkb@gmail.com">Email</a>
           </div>
         </div>
 

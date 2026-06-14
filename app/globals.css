@@ -239,7 +239,41 @@ body {
 .budget-gets li { display: flex; align-items: flex-start; gap: 10px; font-size: 13.5px; line-height: 1.4; opacity: 0.85; }
 .budget-cta { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 600; text-decoration: none; background: var(--fg); color: var(--bg); transition: transform 0.25s, opacity 0.25s; }
 .budget-cta:hover { transform: translateY(-2px); opacity: 0.9; }
-.budget-cta .tie/* ── Mobile ── */
+.budget-cta .tie/* ── Contact modal ── */
+.settings-modal { position: fixed; inset: 0; z-index: 9500; display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: color-mix(in srgb, var(--bg) 55%, transparent); backdrop-filter: blur(10px) saturate(120%); -webkit-backdrop-filter: blur(10px) saturate(120%);
+  animation: modalBg 0.35s ease; }
+.contact-card { position: relative; width: 100%; max-width: 460px; background: var(--bg);
+  border: 1px solid color-mix(in srgb, var(--fg) 18%, transparent); border-radius: 18px; padding: 32px 32px 30px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4); animation: modalCard 0.45s cubic-bezier(0.16,1,0.3,1); }
+.settings-close { position: absolute; top: 16px; right: 18px; width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+  background: color-mix(in srgb, var(--fg) 8%, transparent); color: var(--fg); font-size: 22px; line-height: 1; display: flex; align-items: center; justify-content: center; transition: background 0.2s, transform 0.2s; }
+.settings-close:hover { background: color-mix(in srgb, var(--fg) 16%, transparent); transform: rotate(90deg); }
+.settings-title { font-size: 22px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; }
+.settings-sub { font-size: 13px; opacity: 0.6; margin-bottom: 22px; line-height: 1.5; }
+
+.contact-form { display: flex; flex-direction: column; gap: 16px; }
+.contact-form label { display: flex; flex-direction: column; gap: 7px; }
+.contact-form label span { font-size: 12.5px; opacity: 0.7; }
+.contact-form input, .contact-form textarea {
+  font-family: inherit; font-size: 14px; color: var(--fg); background: color-mix(in srgb, var(--fg) 5%, transparent);
+  border: 1px solid color-mix(in srgb, var(--fg) 16%, transparent); border-radius: 10px; padding: 11px 13px; outline: none;
+  transition: border-color 0.2s, background 0.2s; resize: vertical;
+}
+.contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--fg); opacity: 0.35; }
+.contact-form input:focus, .contact-form textarea:focus { border-color: color-mix(in srgb, var(--fg) 45%, transparent); background: color-mix(in srgb, var(--fg) 8%, transparent); }
+.contact-submit { margin-top: 4px; padding: 13px; border-radius: 11px; border: none; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600;
+  background: var(--fg); color: var(--bg); transition: opacity 0.2s, transform 0.2s; }
+.contact-submit:hover { transform: translateY(-2px); opacity: 0.9; }
+.contact-submit:disabled { opacity: 0.5; cursor: default; transform: none; }
+
+.contact-sent { text-align: center; padding: 14px 0 6px; }
+.contact-check { width: 54px; height: 54px; margin: 0 auto 16px; border-radius: 50%; background: color-mix(in srgb, var(--fg) 10%, transparent);
+  display: flex; align-items: center; justify-content: center; font-size: 26px; }
+.contact-sent .settings-sub { margin-bottom: 22px; }
+.contact-sent .contact-submit { width: 100%; }
+
+/* ── Mobile ── */
 @media (max-width: 800px) {
   .page { flex-direction: column; }
   .left { width: 100%; padding: 80px 32px 32px; font-size: 15px; }
