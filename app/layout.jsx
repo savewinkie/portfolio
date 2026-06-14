@@ -43,9 +43,6 @@ export const metadata = {
     description: 'Building clean, fast web experiences with Next.js & React.',
     images: ['/og-image.png'],
   },
-  icons: {
-    icon: '/favicon.ico',
-  },
 };
 
 const jsonLd = {
