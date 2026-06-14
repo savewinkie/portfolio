@@ -313,6 +313,29 @@ body {
 .cc-sent p { font-size: 13px; opacity: 0.6; margin-bottom: 20px; }
 .cc-sent .cc-submit { width: 100%; }
 
+/* ── Mobile intro notice ── */
+.site-wrap { height: 100%; }
+
+.mobile-notice {
+  position: fixed; inset: 0; z-index: 2147483647;
+  display: flex; align-items: center; justify-content: center; padding: 32px;
+  background: var(--bg); opacity: 1; transition: opacity 0.6s ease;
+}
+.mobile-notice.fade-out { opacity: 0; pointer-events: none; }
+.mn-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px; max-width: 320px;
+  animation: mnIn 0.6s cubic-bezier(0.16,1,0.3,1); }
+@keyframes mnIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.mn-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--fg) 22%, transparent); color: var(--fg); }
+.mn-icon svg { width: 26px; height: 26px; }
+.mn-inner p { font-size: 15px; line-height: 1.6; color: var(--fg); opacity: 0.85; }
+
+/* on phones/tablets the site fades in after the notice */
+@media (max-width: 1024px) {
+  .site-wrap { animation: siteFadeIn 0.8s ease 2.3s backwards; }
+}
+@keyframes siteFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
 /* ── Mobile ── */
 @media (max-width: 800px) {
   /* use dynamic viewport height so panels fit under the browser bar */

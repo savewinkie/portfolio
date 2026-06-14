@@ -6,6 +6,7 @@ import AboutPanel from '../components/AboutPanel';
 import ProjectsPanel from '../components/ProjectsPanel';
 import PricingPanel from '../components/PricingPanel';
 import ContactModal from '../components/ContactModal';
+import MobileNotice from '../components/MobileNotice';
 
 const MAX = 3;
 
@@ -79,11 +80,14 @@ export default function Home() {
 
   return (
     <>
-      <div className="stage" data-page={page === 0 ? undefined : page}>
-        <HomePanel onNext={() => goTo(1)} onContact={() => openContact('')} />
-        <AboutPanel onBack={() => goTo(0)} onNext={() => goTo(2)} />
-        <ProjectsPanel onBack={() => goTo(1)} onNext={() => goTo(3)} />
-        <PricingPanel onBack={() => goTo(2)} onContact={openContact} />
+      <MobileNotice />
+      <div className="site-wrap">
+        <div className="stage" data-page={page === 0 ? undefined : page}>
+          <HomePanel onNext={() => goTo(1)} onContact={() => openContact('')} />
+          <AboutPanel onBack={() => goTo(0)} onNext={() => goTo(2)} />
+          <ProjectsPanel onBack={() => goTo(1)} onNext={() => goTo(3)} />
+          <PricingPanel onBack={() => goTo(2)} onContact={openContact} />
+        </div>
       </div>
       <ContactModal open={contact !== null} plan={contact || ''} onClose={closeContact} />
     </>
