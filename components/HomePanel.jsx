@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import ShaderCanvas from './ShaderCanvas';
 
-export default function HomePanel({ onNext }) {
+export default function HomePanel({ onNext, onContact }) {
   const [dark, setDark] = useState(true);
 
   function toggleTheme() {
@@ -47,7 +47,7 @@ export default function HomePanel({ onNext }) {
           <div className="footer-links">
             <a href="https://github.com/savewinkie" target="_blank" rel="noreferrer">GitHub</a>
             <a href="https://x.com/linkb_" target="_blank" rel="noreferrer">X</a>
-            <a href="mailto:contact.linkb@gmail.com">Email</a>
+            <button className="footer-link-btn" onClick={onContact}>Email</button>
           </div>
         </div>
 

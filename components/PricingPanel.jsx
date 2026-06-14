@@ -109,56 +109,21 @@ const tiers = [
   },
 ];
 
-export default function PricingPanel({ onBack }) {
+export default function PricingPanel({ onBack, onContact }) {
   const [budget, setBudget] = useState(199);
   const [showBudget, setShowBudget] = useState(false);
-  const [showContact, setShowContact] = useState(false);
-  const [contactPlan, setContactPlan] = useState('');
-  const [sent, setSent] = useState(false);
-  const [sending, setSending] = useState(false);
   const plan = budgetPlan(budget);
   const pct = ((budget - MIN) / (MAX - MIN)) * 100;
 
-  // open the contact form, optionally tagged with which plan they picked
-  function openContact(planName) {
-    setContactPlan(planName || '');
-    setSent(false);
-    setShowContact(true);
-  }
-
-  // send via Formspree (replace YOUR_FORM_ID below with your real ID)
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setSending(true);
-    const form = e.target;
-    const data = new FormData(form);
-    try {
-      const res = await fetch('https://formspree.io/f/xaqzaozy', {
-        method: 'POST',
-        body: data,
-        headers: { Accept: 'application/json' },
-      });
-      if (res.ok) { setSent(true); form.reset(); }
-      else { alert('Something went wrong — you can also email me directly at contact.linkb@gmail.com'); }
-    } catch {
-      alert('Something went wrong — you can also email me directly at contact.linkb@gmail.com');
-    }
-    setSending(false);
-  }
-
-  // close modals on Escape (capture so the page nav doesn't also fire)
+  // close budget modal on Escape (capture so the page nav doesn't also fire)
   useEffect(() => {
-    if (!showBudget && !showContact) return;
+    if (!showBudget) return;
     function onKey(e) {
-      if (e.key === 'Escape') {
-        e.stopPropagation();
-        setShowBudget(false);
-        setShowContact(false);
-      }
+      if (e.key === 'Escape') { e.stopPropagation(); setShowBudget(false); }
     }
     document.addEventListener('keydown', onKey, true);
     return () => document.removeEventListener('keydown', onKey, true);
-  }, [showBudget, showContact]);
+  }, [showBudget]);
 
   return (
     <div className="panel pricing-panel">
@@ -190,7 +155,7 @@ export default function PricingPanel({ onBack }) {
                 {tier.cycle && <span className="tier-cycle">{tier.cycle}</span>}
               </div>
 
-              <button className="tier-cta" onClick={() => openContact(tier.name)}>{tier.button}</button>
+              <button className="tier-cta" onClick={() => onContact(tier.name)}>{tier.button}</button>
 
               <ul className="tier-features">
                 {tier.features.map((f) => (
@@ -245,54 +210,10 @@ export default function PricingPanel({ onBack }) {
                   <li key={g}><CheckIcon />{g}</li>
                 ))}
               </ul>
-              <button className="budget-cta" onClick={() => { setShowBudget(false); openContact(`Custom budget €${budget}`); }}>
+              <button className="budget-cta" onClick={() => { setShowBudget(false); onContact(`Custom budget €${budget}`); }}>
                 Let&apos;s build it <span className="tier-arrow">→</span>
               </button>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* ── Contact modal ── */}
-      {showContact && (
-        <div className="settings-modal" onClick={() => setShowContact(false)}>
-          <div className="contact-card" onClick={(e) => e.stopPropagation()}>
-            <button className="settings-close" onClick={() => setShowContact(false)} aria-label="Close">×</button>
-
-            {!sent ? (
-              <>
-                <h3 className="settings-title">Start a project</h3>
-                <p className="settings-sub">
-                  {contactPlan ? `Plan: ${contactPlan}. ` : ''}Tell me a bit about it and I&apos;ll get back to you.
-                </p>
-
-                <form onSubmit={handleSubmit} className="contact-form">
-                  <input type="hidden" name="plan" value={contactPlan} />
-                  <label>
-                    <span>Name</span>
-                    <input type="text" name="name" required placeholder="Your name" />
-                  </label>
-                  <label>
-                    <span>Email</span>
-                    <input type="email" name="email" required placeholder="you@example.com" />
-                  </label>
-                  <label>
-                    <span>Message</span>
-                    <textarea name="message" rows={4} required placeholder="What do you have in mind?" />
-                  </label>
-                  <button type="submit" className="contact-submit" disabled={sending}>
-                    {sending ? 'Sending…' : 'Send message'}
-                  </button>
-                </form>
-              </>
-            ) : (
-              <div className="contact-sent">
-                <div className="contact-check">✓</div>
-                <h3 className="settings-title">Message sent!</h3>
-                <p className="settings-sub">Thanks — I&apos;ll get back to you soon.</p>
-                <button className="contact-submit" onClick={() => setShowContact(false)}>Close</button>
-              </div>
-            )}
           </div>
         </div>
       )}
