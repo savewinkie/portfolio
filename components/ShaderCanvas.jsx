@@ -64,20 +64,26 @@ export default function ShaderCanvas({ variant = 0, hue = null, glow = true }) {
 
     function resize() {
       const r = canvas.parentElement.getBoundingClientRect();
-      canvas.width = Math.max(1, Math.floor(r.width));
-      canvas.height = Math.max(1, Math.floor(r.height));
-      bw = Math.max(1, Math.ceil(canvas.width / SCALE));
-      bh = Math.max(1, Math.ceil(canvas.height / SCALE));
+      const w = Math.max(1, Math.ceil(r.width));
+      const h = Math.max(1, Math.ceil(r.height));
+      if (w === canvas.width && h === canvas.height) return; // no change
+      canvas.width = w;
+      canvas.height = h;
+      bw = Math.max(1, Math.ceil(w / SCALE));
+      bh = Math.max(1, Math.ceil(h / SCALE));
       img = ctx.createImageData(bw, bh);
       buf = new Uint32Array(img.data.buffer);
       xn = new Float32Array(bw);
       yn = new Float32Array(bh);
       for (let x = 0; x < bw; x++) xn[x] = x / bw;
       for (let y = 0; y < bh; y++) yn[y] = y / bh;
-      if (glowCanvas) { glowCanvas.width = canvas.width; glowCanvas.height = canvas.height; }
+      if (glowCanvas) { glowCanvas.width = w; glowCanvas.height = h; }
     }
     resize();
     window.addEventListener('resize', resize);
+    // re-fit whenever the panel itself changes size (after 3D transitions settle)
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas.parentElement);
 
     // mouse tracking (passive listener = no scroll jank)
     let mouseX = 0.5, mouseY = 0.5, smoothX = 0.5, smoothY = 0.5;
@@ -195,6 +201,7 @@ export default function ShaderCanvas({ variant = 0, hue = null, glow = true }) {
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener('resize', resize);
+      ro.disconnect();
       parent.removeEventListener('mousemove', onMove);
       parent.removeEventListener('mouseleave', onLeave);
       document.removeEventListener('visibilitychange', onVis);

@@ -31,6 +31,23 @@ export default function Home() {
     return () => document.removeEventListener('keydown', onKey);
   }, [contact]);
 
+  // scroll / trackpad navigation between pages (throttled)
+  useEffect(() => {
+    let locked = false;
+    function onWheel(e) {
+      if (contact !== null) return;           // don't navigate while modal open
+      if (e.target.closest('.modal-scrollable, .budget, .contact-card, textarea')) return;
+      const delta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      if (Math.abs(delta) < 20 || locked) return;
+      locked = true;
+      if (delta > 0) setPage((p) => Math.min(MAX, p + 1));
+      else setPage((p) => Math.max(0, p - 1));
+      setTimeout(() => { locked = false; }, 900); // wait for the slide animation
+    }
+    window.addEventListener('wheel', onWheel, { passive: true });
+    return () => window.removeEventListener('wheel', onWheel);
+  }, [contact]);
+
   return (
     <>
       <div className="stage" data-page={page === 0 ? undefined : page}>

@@ -55,7 +55,7 @@ export default function HomePanel({ onNext, onContact }) {
           <ShaderCanvas />
         </div>
 
-        <button className="arrow right-a" onClick={onNext} aria-label="About me">›</button>
+        <button className="arrow right-a" onClick={onNext} aria-label="About me"><span className="arr-inner"><span className="arr-line" /><span className="arr-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg></span></span></button>
       </div>
     </div>
   );

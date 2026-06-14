@@ -64,7 +64,27 @@ export default function ContactModal({ open, onClose, plan = '' }) {
   }
 
   return createPortal(
-    <div className="contact-overlay" onClick={onClose}>
+    <div
+      className="contact-overlay"
+      onClick={onClose}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 2147483647,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '24px',
+        background: 'color-mix(in srgb, var(--bg) 70%, transparent)',
+        backdropFilter: 'blur(16px) saturate(120%)',
+        WebkitBackdropFilter: 'blur(16px) saturate(120%)',
+      }}
+    >
       <div className="contact-card" onClick={(e) => e.stopPropagation()}>
         <Plus className="cc-plus tl" />
         <Plus className="cc-plus tr" />

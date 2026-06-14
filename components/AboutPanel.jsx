@@ -28,8 +28,8 @@ export default function AboutPanel({ onBack, onNext }) {
           <div><div className="k">STATUS</div><div className="v">Available for work</div></div>
         </div>
       </div>
-      <button className="arrow left-a" onClick={onBack} aria-label="Back">‹</button>
-      <button className="arrow right-a" onClick={onNext} aria-label="Projects">›</button>
+      <button className="arrow left-a" onClick={onBack} aria-label="Back"><span className="arr-inner"><span className="arr-line" /><span className="arr-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg></span></span></button>
+      <button className="arrow right-a" onClick={onNext} aria-label="Projects"><span className="arr-inner"><span className="arr-line" /><span className="arr-chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg></span></span></button>
     </div>
   );
 }
