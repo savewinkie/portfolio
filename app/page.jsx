@@ -6,22 +6,34 @@ import AboutPanel from '../components/AboutPanel';
 import ProjectsPanel from '../components/ProjectsPanel';
 import PricingPanel from '../components/PricingPanel';
 import ContactModal from '../components/ContactModal';
-import MobileNotice from '../components/MobileNotice';
+import MobileSite from '../components/MobileSite';
 
 const MAX = 3;
 
 export default function Home() {
   const [page, setPage] = useState(0);
   const [contact, setContact] = useState(null); // null = closed, else string plan/label
+  // null until measured on the client → avoids hydration mismatch & flicker
+  const [isMobile, setIsMobile] = useState(null);
+
+  const openContact = useCallback((plan = '') => setContact(plan), []);
+  const closeContact = useCallback(() => setContact(null), []);
+
+  // choose layout by viewport width; re-check on resize / orientation change
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 800px)');
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
 
   const goTo = useCallback((p) => {
     setPage(Math.max(0, Math.min(MAX, p)));
   }, []);
 
-  const openContact = useCallback((plan = '') => setContact(plan), []);
-  const closeContact = useCallback(() => setContact(null), []);
-
   useEffect(() => {
+    if (isMobile !== false) return; // desktop-only navigation
     function onKey(e) {
       if (contact !== null) return; // modal handles its own keys
       if (e.key === 'ArrowRight') setPage((p) => Math.min(MAX, p + 1));
@@ -30,10 +42,11 @@ export default function Home() {
     }
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, [contact]);
+  }, [contact, isMobile]);
 
   // scroll / trackpad navigation between pages (throttled)
   useEffect(() => {
+    if (isMobile !== false) return; // desktop-only navigation
     let locked = false;
     function onWheel(e) {
       if (contact !== null) return;           // don't navigate while modal open
@@ -47,10 +60,11 @@ export default function Home() {
     }
     window.addEventListener('wheel', onWheel, { passive: true });
     return () => window.removeEventListener('wheel', onWheel);
-  }, [contact]);
+  }, [contact, isMobile]);
 
-  // touch swipe navigation (mobile)
+  // touch swipe navigation (desktop tablets / touch laptops only)
   useEffect(() => {
+    if (isMobile !== false) return; // phones use the scrolling MobileSite instead
     let startX = 0, startY = 0, tracking = false;
     function onStart(e) {
       if (contact !== null) return;
@@ -76,11 +90,22 @@ export default function Home() {
       window.removeEventListener('touchstart', onStart);
       window.removeEventListener('touchend', onEnd);
     };
-  }, [contact]);
+  }, [contact, isMobile]);
+
+  // wait until we've measured the viewport (keeps the black bg, no flicker)
+  if (isMobile === null) return null;
+
+  if (isMobile) {
+    return (
+      <>
+        <MobileSite onContact={openContact} />
+        <ContactModal open={contact !== null} plan={contact || ''} onClose={closeContact} />
+      </>
+    );
+  }
 
   return (
     <>
-      <MobileNotice />
       <div className="site-wrap">
         <div className="stage" data-page={page === 0 ? undefined : page}>
           <HomePanel onNext={() => goTo(1)} onContact={() => openContact('')} />

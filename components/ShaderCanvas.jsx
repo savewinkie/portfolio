@@ -66,7 +66,9 @@ export default function ShaderCanvas({ variant = 0, hue = null, glow = true }) {
       const r = canvas.parentElement.getBoundingClientRect();
       const w = Math.max(1, Math.ceil(r.width));
       const h = Math.max(1, Math.ceil(r.height));
-      if (w === canvas.width && h === canvas.height) return; // no change
+      // bail only if nothing changed AND the buffers already exist — otherwise a
+      // remount (e.g. React Strict Mode's double-invoke) would skip creating `img`
+      if (img && w === canvas.width && h === canvas.height) return;
       canvas.width = w;
       canvas.height = h;
       bw = Math.max(1, Math.ceil(w / SCALE));
@@ -100,6 +102,7 @@ export default function ShaderCanvas({ variant = 0, hue = null, glow = true }) {
     function draw(now) {
       rafId = requestAnimationFrame(draw);
       if (now - lastFrame < FRAME_MS) return; // throttle to TARGET_FPS
+      if (!img || !buf) { resize(); if (!img || !buf) return; } // never draw without a buffer
       lastFrame = now;
 
       const hueNow = hueRef.current;
